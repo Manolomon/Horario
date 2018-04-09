@@ -19,10 +19,12 @@ public class Timetable extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLHorario.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLHorario.fxml"));
+        stage.setTitle("Horario");
         Scene scene = new Scene(root);
-        
+        scene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.setScene(scene);
         stage.show();
     }

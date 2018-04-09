@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Contacto">
+    <select id="getAllContactos" resultType="model.pojos.Contacto">
+        SELECT idContacto, nombre, telefono, email, direccion, apodo, fechaNacimiento FROM Contacto ORDER BY nombre
+    </select>
+    
+    <select id="buscarContacto" resultType="model.pojos.Contacto"
+        parameterType="String">
+        SELECT idContacto, nombre, telefono, email, direccion, apodo,fechaNacimiento FROM Contacto
+        WHERE nombre LIKE #{nombre} ORDER BY nombre
+    </select>
+    
+    <insert id="registrar" parameterType="model.pojos.Contacto">
+        INSERT INTO Contacto (nombre, telefono, email, direccion, apodo,fechaNacimiento)
+        VALUES(#{nombre},#{telefono},#{email},#{direccion},#{apodo},#{fechaNacimiento})
+    </insert>
+    
+    <update id="actualizar" parameterType="model.pojos.Contacto">
+        UPDATE Contacto SET
+        nombre = #{nombre},
+        telefono = #{telefono},
+        email = #{email},
+        direccion = #{direccion},
+        apodo = #{apodo},
+        fechaNacimiento = #{fechaNacimiento}
+        WHERE idContacto = #{idContacto}
+    </update>
+
+    <delete id="eliminar" parameterType="int">
+        DELETE FROM Contacto WHERE idContacto = #{idContacto}
+    </delete>
+</mapper>
