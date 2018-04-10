@@ -8,6 +8,10 @@ and open the template in the editor.
     Author     : Manolo
 */
 
+.jfx-hamburger StackPane {
+	-fx-background-color: #ffffff;
+}
+
 @font-face {
 
 	src: url("/roboto/RobotoCondensed-Light.ttf");
@@ -200,21 +204,33 @@ and open the template in the editor.
 
 /* same colors as the bar chart
 */
-.group0 { -fx-background-color: #f9d900; }
+.group0 { -fx-background-color: #f44336; } /*#f9d900*/
 
-.group1 { -fx-background-color: #a9e200; }
+.group1 { -fx-background-color: #9c27b0; } /*#a9e200*/
 
-.group2 { -fx-background-color: #22bad9; }
+.group2 { -fx-background-color: #3f51b5; } /*#22bad9*/
 
-.group3 { -fx-background-color: #0181e2; }
+.group3 { -fx-background-color: #03a9f4; } /*#0181e2*/
 
-.group4 { -fx-background-color: #2f357f; }
+.group4 { -fx-background-color: #009688; } /*#2f357f*/
 
-.group5 { -fx-background-color: #860061; }
+.group5 { -fx-background-color: #4caf50; } /*#860061*/
 
-.group6 { -fx-background-color: #c62b00; }
+.group6 { -fx-background-color: #ffeb3b; } /*#c62b00*/
 
-.group7 { -fx-background-color: #ff5700; } 
+.group7 { -fx-background-color: #ff9800; } /*#ff5700*/
+
+.group8 { -fx-background-color: #e91e63; }
+
+.group9 { -fx-background-color: #673ab7; }
+
+.group10 { -fx-background-color: #2196f3; }
+
+.group11 { -fx-background-color: #8bc34a; }
+
+.group12 { -fx-background-color: #ffc107; }
+
+.group12 { -fx-background-color: #ff5722; }
 
 
  
@@ -250,7 +266,7 @@ and open the template in the editor.
 
 .Agenda .Now {
 
-	-fx-fill: #3F51B5;
+	-fx-fill: #ff1744; /*#3F51B5*/
 
 	-fx-stroke: WHITE;
 

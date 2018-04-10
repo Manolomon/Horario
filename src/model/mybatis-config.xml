@@ -19,8 +19,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         </environment>
     </environments>
     <mappers>
-      <!-- TODO: Mapper de EE y Clase -->
-      <mapper resource="model/mapper/ContactoMapper.xml"/>
+      <mapper resource="model/mapper/EEMapper.xml"/>
+      <mapper resource="model/mapper/ClaseMapper.xml"/>
     </mappers>
 </configuration>
 

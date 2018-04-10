@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="EE">
     <select id="obtener" resultType="model.pojos.EE">
-        SELECT idEE, nombre, profesor FROM EE ORDER BY nombre
+        SELECT idEE, nombre, profesor FROM EE
     </select>
 
     <select id="obtenerEE" resultType="model.pojos.EE"

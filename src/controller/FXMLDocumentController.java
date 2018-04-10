@@ -10,25 +10,26 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
+import model.DAO.ClaseDAO;
+import model.DAO.EEDAO;
+import model.pojos.Clase;
+import model.pojos.EE;
 
 /**
  *
@@ -44,34 +45,34 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private JFXButton btn_agregar;
+
+    private List<EE> experiencias;
+    private List<Clase> clases;
+    private final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         JFXCheckBox ch = new JFXCheckBox();
         ch.setSelected(false);
-        final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
+        
+        //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
         for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
             lAppointmentGroupMap.put(lAppointmentGroup.getDescription(), lAppointmentGroup);
         }
-        LocalDate lTodayLocalDate = LocalDate.now();
-        Appointment mate = new Agenda.AppointmentImplLocal()
-                .withStartLocalDateTime(LocalDateTime.of(LocalDate.of(2018, Month.APRIL, 3), LocalTime.of(8, 00)))
-                .withEndLocalDateTime(LocalDateTime.of(LocalDate.of(2018, Month.APRIL, 3), LocalTime.of(11, 30)))
-                .withSummary("Matemáticas")
-                .withDescription("Santa Claus")
-                .withAppointmentGroup(lAppointmentGroupMap.get("group02"));
-        mate.setLocation("Mi cora");
-        agenda.appointments().addAll(mate);
-        
+        cargar();
         //TODO: Agregar vista del evento
-        agenda.setActionCallback( (appointment) -> {
-            System.out.println(appointment.getLocation());
-            System.out.println(appointment.getAppointmentGroup());
-            appointment.getAppointmentGroup().setStyleClass("/view/AgendaStyle.css");
-            return null;
+        agenda.setActionCallback(new Callback<Appointment, Void>() {
+            @Override
+            public Void call(Appointment clase) {
+                System.out.println(clase.getLocation());
+                System.out.println(clase.getAppointmentGroup());
+                return null;
+            }
         });
         agenda.allowDraggingProperty().bind(ch.selectedProperty());
         agenda.allowResizeProperty().bind(ch.selectedProperty());
+        
+        //Restringir Click Derecho
         agenda.addEventFilter(MouseEvent.MOUSE_PRESSED, ev -> {
             if (ev.getButton() == MouseButton.SECONDARY) {
                 ev.consume();
@@ -79,13 +80,24 @@ public class FXMLDocumentController implements Initializable {
         });
     }
 
+    public void cargar() {
+        experiencias = EEDAO.getAllEEs();
+        clases = ClaseDAO.getAllClases();
+        int i;
+        for (Clase c : clases) {
+            i = c.getIdEE();
+            System.out.println(i);
+            c.setAppointmentGroup(lAppointmentGroupMap.get("group" + (i < 10 ? "0" : "") + i));
+        }
+        agenda.appointments().addAll(clases);
+    }
     @FXML
     void agregarClase(ActionEvent event) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text("Agregar Contacto"));
-        //content.setBody(new Text("Holu"));
-        GridPane body = FXMLLoader.load(getClass().getResource("/view/FXMLAgregar.fxml"));
-        content.setBody(body);
+        content.setBody(new Text("Holu"));
+//        GridPane body = FXMLLoader.load(getClass().getResource("/view/FXMLAgregar.fxml"));
+//        content.setBody(body);
         JFXDialog dialog = new JFXDialog(stackDialogPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton aceptar = new JFXButton("ACEPTAR");
         aceptar.setOnAction(new EventHandler<ActionEvent>() {

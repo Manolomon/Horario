@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Clase">
+    <select id="obtenerClases" resultType="model.pojos.Clase">
+        SELECT idClase, idEE, dia, horaInicio, horaFin, salon, nota FROM Clase
+    </select>
+    
+    <select id="obtenerClasesAsociadas" resultType="model.pojos.Clase"
+        parameterType="int">
+        SELECT idClase, idEE, dia, horaInicio, horaFin, salon, nota FROM Clase
+        WHERE idEE LIKE #{idEE}
+    </select>
+    
+    <insert id="registrar" parameterType="model.pojos.Clase">
+        INSERT INTO Clase (idEE, dia, horaInicio, horaFin, salon, nota)
+        VALUES(#{idEE},#{dia},#{horaInicio},#{horaFin},#{salon},#{nota})
+    </insert>
+    
+    <update id="actualizar" parameterType="model.pojos.Clase">
+        UPDATE Clase SET
+        idEE = #{idEE}
+        dia = #{dia},
+        horaInicio = #{horaInicio},
+        horaFin = #{horaFin},
+        salon = #{salon},
+        nota = #{nota},
+        WHERE idClase = #{idClase}
+    </update>
+
+    <delete id="eliminar" parameterType="int">
+        DELETE FROM Contacto WHERE idClase = #{idClase}
+    </delete>
+
+    <delete id="eliminarClases" parameterType="int">
+        DELETE FROM Clase WHERE idEE = #{idEE}
+    </delete>
+
+</mapper>

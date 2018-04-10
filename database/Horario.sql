@@ -7,7 +7,6 @@ CREATE TABLE EE(
     idEE int NOT NULL auto_increment,
     nombre varchar(255) NOT NULL,
     profesor varchar(255) NOT NULL,
-    color varchar(7) NOT NULL,
     primary key (idEE)
 );
 
