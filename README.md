@@ -3,7 +3,7 @@
 Proyecto Horario, orientado a un estudiante con un modelo educativo similar al que se observa en la Facultad. Se debe poder:
 
 * [ ] Agregar distintas Experiencias Educativas, las cuales se impartiran una o más veces por semana, en distintos horarios y salones
-* [ ] Obtener una vista general del horario
+* [x] Obtener una vista general del horario
 * [ ] Gestionar las clases individuales de cada Experiencia Educativa
 * [ ] Almacenar la información en una base de datos SQL
 

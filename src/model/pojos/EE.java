@@ -7,24 +7,24 @@ package model.pojos;
  * @version 1.0
  */
 public class EE {
-    private int idEE;
+    private Integer idEE;
     private String nombre;
     private String profesor;
 
     public EE() {
     }
 
-    public EE(int idEE, String nombre, String profesor) {
+    public EE(Integer idEE, String nombre, String profesor) {
         this.idEE = idEE;
         this.nombre = nombre;
         this.profesor = profesor;
     }
 
-    public int getIdEE() {
+    public Integer getIdEE() {
         return idEE;
     }
 
-    public void setIdEE(int idEE) {
+    public void setIdEE(Integer idEE) {
         this.idEE = idEE;
     }
 

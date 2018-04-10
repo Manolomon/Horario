@@ -27,6 +27,31 @@ and open the template in the editor.
 }
 
 
+.Agenda .scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+}
+
+
+.Agenda .scroll-bar:vertical .increment-button ,
+.Agenda .scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 10 0 0;
+}
+.Agenda  .scroll-bar .increment-arrow,
+.Agenda  .scroll-bar .decrement-arrow{
+    -fx-shape:" ";  
+    -fx-padding:0;
+}
+
+.Agenda .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
 
 .Agenda .Week {
 
@@ -206,13 +231,13 @@ and open the template in the editor.
 */
 .group0 { -fx-background-color: #f44336; } /*#f9d900*/
 
-.group1 { -fx-background-color: #9c27b0; } /*#a9e200*/
+.group1 { -fx-background-color: #9c27b0;} /*#a9e200*/
 
 .group2 { -fx-background-color: #3f51b5; } /*#22bad9*/
 
 .group3 { -fx-background-color: #03a9f4; } /*#0181e2*/
 
-.group4 { -fx-background-color: #009688; } /*#2f357f*/
+.group4 { -fx-background-color: #009688;} /*#2f357f*/
 
 .group5 { -fx-background-color: #4caf50; } /*#860061*/
 

@@ -103,8 +103,4 @@ public class EEDAO {
         }
         return false;
     }
-
-    public static Object getEE() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

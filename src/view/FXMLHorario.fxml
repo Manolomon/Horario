@@ -22,10 +22,10 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="58.0" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="agendaPane" layoutY="58.0" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Agenda fx:id="agenda" prefHeight="480.0" prefWidth="733.0" />
-                  <JFXButton fx:id="btn_agregar" buttonType="RAISED" layoutX="649.0" layoutY="406.0" onAction="#agregarClase" style="-fx-background-color: #3F51B5; -fx-background-radius: 50; -fx-pref-height: 50; -fx-pref-width: 50;" text="+" textFill="WHITE">
+                  <JFXButton fx:id="btn_agregar" buttonType="RAISED" layoutX="649.0" layoutY="406.0" onAction="#agregarClase" style="-fx-background-color: #FF4081; -fx-background-radius: 50; -fx-pref-height: 50; -fx-pref-width: 50;" text="+" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

@@ -7,22 +7,18 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
-import com.jfoenix.controls.JFXDialog;
-import com.jfoenix.controls.JFXDialogLayout;
 import java.net.URL;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
@@ -39,6 +35,9 @@ public class FXMLDocumentController implements Initializable {
     
     @FXML
     private StackPane stackDialogPane;
+    
+    @FXML
+    private AnchorPane AgendaPane;
     
     @FXML
     private Agenda agenda;
@@ -81,6 +80,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void cargar() {
+        agenda.appointments().clear();
         experiencias = EEDAO.getAllEEs();
         clases = ClaseDAO.getAllClases();
         int i;
@@ -93,24 +93,16 @@ public class FXMLDocumentController implements Initializable {
     }
     @FXML
     void agregarClase(ActionEvent event) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text("Agregar Contacto"));
-        content.setBody(new Text("Holu"));
-//        GridPane body = FXMLLoader.load(getClass().getResource("/view/FXMLAgregar.fxml"));
-//        content.setBody(body);
-        JFXDialog dialog = new JFXDialog(stackDialogPane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton aceptar = new JFXButton("ACEPTAR");
-        aceptar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                dialog.close();
-            }
-        });
-        content.setActions(aceptar);
-        dialog.show();
+        
     }
 }
 
+/*
+* final Label response = new Label();
+    final ImageView imageView = new ImageView(
+      new Image("http://icons.iconarchive.com/icons/eponas-deeway/colobrush/128/heart-2-icon.png")
+    );
+    final Button button = new Button("I love you", imageView);
 /*
 Para fecha:
 
