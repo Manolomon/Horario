@@ -25,7 +25,7 @@ Escribir un programa en java para el manejo de horarios de clase de los estudian
 * Definición de las partes o subsistemas que considerará en el desarrollo de la aplicación.
 * Aplicación de principios de orientación a objetos: ocultamiento de información, herencia.
 * Complejidad de métodos menor a 10.
-* Comentarios en código 
+* Comentarios en código
 * Documentación final
 
 ### Preguntas de apoyo

@@ -7,18 +7,26 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+import com.jfoenix.controls.JFXDrawer;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.input.MouseButton;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Callback;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
@@ -44,6 +52,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private JFXButton btn_agregar;
+    
+    @FXML
+    private JFXButton hamburger;
+    
+    @FXML
+    private JFXDrawer drawer;
 
     private List<EE> experiencias;
     private List<Clase> clases;
@@ -51,49 +65,93 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        drawer.setResizeContent(true);
+        drawer.setOverLayVisible(false);
+        drawer.setResizableOnDrag(true);
+        prepararAgenda();
+        cargar();
+    }
+    
+    @FXML
+    public void initHamburger(ActionEvent event) {
+        try {
+            VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDrawer.fxml"));
+            drawer.setSidePane(box);
+            drawer.setEffect(new DropShadow());
+            drawer.open();
+            drawer.setMouseTransparent(false);
+                //drawer.hidden();
+        } catch (IOException e){
+            
+        }
+    }
+    
+    @FXML
+    void ripDrawer(MouseEvent event) {
+        drawer.close();
+        drawer.setMouseTransparent(true);
+    }
+    public void prepararAgenda () {
         JFXCheckBox ch = new JFXCheckBox();
         ch.setSelected(false);
-        
-        //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
-        for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
+         //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
+         for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
             lAppointmentGroupMap.put(lAppointmentGroup.getDescription(), lAppointmentGroup);
         }
-        cargar();
-        //TODO: Agregar vista del evento
-        agenda.setActionCallback(new Callback<Appointment, Void>() {
+         //TODO: Agregar vista del evento
+         agenda.setActionCallback(new Callback<Appointment, Void>() {
             @Override
             public Void call(Appointment clase) {
                 System.out.println(clase.getLocation());
-                System.out.println(clase.getAppointmentGroup());
+                System.out.println(clase.getAppointmentGroup().getDescription());
+                return null;
+            }
+        });
+        agenda.setEditAppointmentCallback(new Callback<Appointment, Void>() {
+            @Override
+            public Void call(Appointment clase) {
+                
                 return null;
             }
         });
         agenda.allowDraggingProperty().bind(ch.selectedProperty());
         agenda.allowResizeProperty().bind(ch.selectedProperty());
-        
-        //Restringir Click Derecho
-        agenda.addEventFilter(MouseEvent.MOUSE_PRESSED, ev -> {
-            if (ev.getButton() == MouseButton.SECONDARY) {
-                ev.consume();
-            }
-        });
     }
-
+    
     public void cargar() {
         agenda.appointments().clear();
         experiencias = EEDAO.getAllEEs();
         clases = ClaseDAO.getAllClases();
-        int i;
-        for (Clase c : clases) {
-            i = c.getIdEE();
-            System.out.println(i);
-            c.setAppointmentGroup(lAppointmentGroupMap.get("group" + (i < 10 ? "0" : "") + i));
+        if (!clases.isEmpty()) {
+            int i;
+            for (Clase c : clases) {
+                i = c.getIdEE();
+                System.out.println(i);
+                c.setAppointmentGroup(lAppointmentGroupMap.get("group" + (i < 10 ? "0" : "") + i));
+            }
+            agenda.appointments().addAll(clases);
         }
-        agenda.appointments().addAll(clases);
     }
     @FXML
-    void agregarClase(ActionEvent event) {
+    public void agregarClase(ActionEvent event) {
+        //datos();
         
+    }
+    
+    public void datos() {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text());
+        content.setBody(new Text());
+        JFXDialog dialog = new JFXDialog(stackDialogPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton aceptar = new JFXButton("ACEPTAR");
+        aceptar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                dialog.close();
+            }
+        });
+        content.setActions(aceptar);
+        dialog.show();
     }
 }
 

@@ -8,29 +8,40 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="135.0" prefWidth="600.0" style="-fx-background-color: #3F51B5;">
+      <AnchorPane prefHeight="135.0" prefWidth="251.0" style="-fx-background-color: #3F51B5;">
          <children>
             <ImageView fitHeight="89.0" fitWidth="89.0" layoutX="14.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" smooth="false">
                <image>
                   <Image url="@../resources/icons.png" />
                </image>
             </ImageView>
-            <Label layoutX="119.0" layoutY="36.0" text="Timetable" textFill="WHITE">
+            <Label layoutX="114.0" layoutY="36.0" text="Timetable" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
             </Label>
-            <Label layoutX="119.0" layoutY="79.0" text="Gestor de Horarios" textFill="WHITE" />
+            <Label layoutX="112.0" layoutY="79.0" text="Gestor de Horarios" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <JFXButton alignment="BASELINE_LEFT" prefHeight="51.0" prefWidth="292.0" ripplerFill="#3f51b5" text="Horario" >
-        <graphic>
-            <ImageView image="@../resources/icons.png" />
-        </graphic>
+      <JFXButton alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="319.0" ripplerFill="#ff4081" text="     Horario">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="36.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/ic_timetable_grey600_24dp.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" prefHeight="48.0" prefWidth="284.0" text="Experiencias Educativas" />
+      <JFXButton alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="292.0" ripplerFill="#ff4081" text="     Experiencias Educativas">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="36.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/ic_school_grey600_24dp.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
    </children>
 </VBox>
