@@ -40,85 +40,84 @@ import model.pojos.EE;
  * @author Manolo
  */
 public class FXMLDocumentController implements Initializable {
-    
+
     @FXML
     private StackPane stackDialogPane;
-    
+
     @FXML
     private AnchorPane AgendaPane;
-    
+
     @FXML
     private Agenda agenda;
 
     @FXML
     private JFXButton btn_agregar;
-    
+
     @FXML
     private JFXButton hamburger;
-    
+
     @FXML
     private JFXDrawer drawer;
 
     private List<EE> experiencias;
     private List<Clase> clases;
     private final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         drawer.setResizeContent(true);
         drawer.setOverLayVisible(false);
         drawer.setResizableOnDrag(true);
         prepararAgenda();
-        cargar();
+        cargarClases();
     }
-    
+
     @FXML
-    public void initHamburger(ActionEvent event) {
+    public void clickHamburger(ActionEvent event) {
         try {
             VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDrawer.fxml"));
             drawer.setSidePane(box);
             drawer.setEffect(new DropShadow());
             drawer.open();
             drawer.setMouseTransparent(false);
-                //drawer.hidden();
-        } catch (IOException e){
-            
+            //drawer.hidden();
+        } catch (IOException e) {
+
         }
     }
-    
+
     @FXML
-    void ripDrawer(MouseEvent event) {
+    void cerrarDrawer(MouseEvent event) {
         drawer.close();
         drawer.setMouseTransparent(true);
     }
-    public void prepararAgenda () {
+
+    public void prepararAgenda() {
         JFXCheckBox ch = new JFXCheckBox();
         ch.setSelected(false);
-         //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
-         for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
+        //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
+        for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
             lAppointmentGroupMap.put(lAppointmentGroup.getDescription(), lAppointmentGroup);
         }
-         //TODO: Agregar vista del evento
-         agenda.setActionCallback(new Callback<Appointment, Void>() {
+        agenda.setActionCallback(new Callback<Appointment, Void>() {
             @Override
             public Void call(Appointment clase) {
-                System.out.println(clase.getLocation());
-                System.out.println(clase.getAppointmentGroup().getDescription());
+                mostrarDatosClase();
                 return null;
             }
         });
         agenda.setEditAppointmentCallback(new Callback<Appointment, Void>() {
             @Override
             public Void call(Appointment clase) {
-                
+
                 return null;
             }
         });
         agenda.allowDraggingProperty().bind(ch.selectedProperty());
         agenda.allowResizeProperty().bind(ch.selectedProperty());
     }
-    
-    public void cargar() {
+
+    public void cargarClases() {
         agenda.appointments().clear();
         experiencias = EEDAO.getAllEEs();
         clases = ClaseDAO.getAllClases();
@@ -132,16 +131,22 @@ public class FXMLDocumentController implements Initializable {
             agenda.appointments().addAll(clases);
         }
     }
+
     @FXML
     public void agregarClase(ActionEvent event) {
         //datos();
-        
+
     }
-    
-    public void datos() {
+
+    public void mostrarDatosClase() {
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text());
-        content.setBody(new Text());
+        try {
+            VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDatosClase.fxml"));
+            content.setHeading(new Text("Nombre de Clase"));
+            content.setBody(box);
+        } catch (IOException e) {
+            System.out.println("No se encontró la GUI");
+        }
         JFXDialog dialog = new JFXDialog(stackDialogPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton aceptar = new JFXButton("ACEPTAR");
         aceptar.setOnAction(new EventHandler<ActionEvent>() {
@@ -152,6 +157,10 @@ public class FXMLDocumentController implements Initializable {
         });
         content.setActions(aceptar);
         dialog.show();
+    }
+
+    public void datos() {
+
     }
 }
 
