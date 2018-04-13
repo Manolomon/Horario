@@ -92,7 +92,7 @@ public class AgregarDatosController implements Initializable {
         });
         transition.play();
     }
-
+ //hgfsdhjgsdjhg
     public void loadHorarioScene(){
         try {
             Parent horarioView;
