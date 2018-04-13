@@ -16,18 +16,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+
+import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
 import model.DAO.ClaseDAO;
@@ -42,7 +48,7 @@ import model.pojos.EE;
 public class FXMLDocumentController implements Initializable {
 
     @FXML
-    private StackPane stackDialogPane;
+    private StackPane rootPane;
 
     @FXML
     private AnchorPane AgendaPane;
@@ -65,6 +71,8 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        rootPane.setOpacity(0);
+        fadeInTransition();
         drawer.setResizeContent(true);
         drawer.setOverLayVisible(false);
         drawer.setResizableOnDrag(true);
@@ -80,7 +88,6 @@ public class FXMLDocumentController implements Initializable {
             drawer.setEffect(new DropShadow());
             drawer.open();
             drawer.setMouseTransparent(false);
-            //drawer.hidden();
         } catch (IOException e) {
 
         }
@@ -134,8 +141,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void agregarClase(ActionEvent event) {
-        //datos();
-
+        fadeOutTransition();
     }
 
     public void mostrarDatosClase() {
@@ -147,7 +153,7 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException e) {
             System.out.println("No se encontró la GUI");
         }
-        JFXDialog dialog = new JFXDialog(stackDialogPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton aceptar = new JFXButton("ACEPTAR");
         aceptar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -159,17 +165,41 @@ public class FXMLDocumentController implements Initializable {
         dialog.show();
     }
 
-    public void datos() {
 
+    public void fadeInTransition() {
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(300));
+        transition.setNode(rootPane);
+        transition.setFromValue(0);
+        transition.setToValue(1);
+        transition.play();
+    }
+
+    public void fadeOutTransition() {
+        FadeTransition transition = new FadeTransition();
+        transition.setDuration(Duration.millis(300));
+        transition.setNode(rootPane);
+        transition.setFromValue(1);
+        transition.setToValue(0);
+
+        transition.setOnFinished((ActionEvent event) -> {
+            loadAgregarScene();
+        });
+        transition.play();
+    }
+
+    public void loadAgregarScene(){
+        try {
+            StackPane agregarView;
+            agregarView = FXMLLoader.load(getClass().getResource("/view/AgregarDatos.fxml"));
+            Scene newScene = new Scene(agregarView);
+            Stage curStage = (Stage) rootPane.getScene().getWindow();
+            curStage.setScene(newScene);
+        } catch (IOException e){
+            System.out.println("No se enecontró: " + e);
+        }
     }
 }
-
-/*
-* final Label response = new Label();
-    final ImageView imageView = new ImageView(
-      new Image("http://icons.iconarchive.com/icons/eponas-deeway/colobrush/128/heart-2-icon.png")
-    );
-    final Button button = new Button("I love you", imageView);
 /*
 Para fecha:
 

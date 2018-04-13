@@ -4,12 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/view/FXMLHorario.fxml</file>
-            <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/model/pojos/Clase.java</file>
-            <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/model/mapper/ClaseMapper.xml</file>
             <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/timetable/Timetable.java</file>
-            <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/view/AgendaStyle.css</file>
-            <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/view/FXMLDrawer.fxml</file>
-            <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/controller/DrawerDemo.java</file>
+            <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/controller/AgregarDatosController.java</file>
             <file>file:/C:/Users/manol/Desktop/Repos/Horario/src/controller/FXMLDocumentController.java</file>
         </group>
     </open-files>
