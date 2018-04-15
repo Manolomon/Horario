@@ -5,7 +5,7 @@ Proyecto Horario, orientado a un estudiante con un modelo educativo similar al q
 * [ ] Agregar distintas Experiencias Educativas, las cuales se impartiran una o más veces por semana, en distintos horarios y salones
 * [x] Obtener una vista general del horario
 * [ ] Gestionar las clases individuales de cada Experiencia Educativa
-* [ ] Almacenar la información en una base de datos SQL
+* [X] Almacenar la información en una base de datos SQL
 
 ## Objetivo
 
