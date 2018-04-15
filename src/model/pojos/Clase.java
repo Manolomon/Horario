@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import jfxtras.scene.control.agenda.Agenda.AppointmentImplLocal;
-import model.DAO.EEDAO;
 
 /**
  * Clase principal para modelar las Clases con al Base de Datos
@@ -22,6 +21,51 @@ public class Clase extends AppointmentImplLocal {
     private Integer idClase;
     private String nombre;
     private Integer idEE;
+    private String dia;
+    private Time horaInicio;
+    private Time horaFin;
+    private String salon;
+    private String nota;
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    public Time getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraInicio(Time horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public Time getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(Time horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getSalon() {
+        return salon;
+    }
+
+    public void setSalon(String salon) {
+        this.salon = salon;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
     
     public Integer getIdClase() {
         return idClase;
@@ -50,6 +94,15 @@ public class Clase extends AppointmentImplLocal {
 //    public Clase() {
 //        super();
 //    }
+
+    public Clase(Integer idEE, String dia, Time horaInicio, Time horaFin, String salon, String nota){
+        this.idEE = idEE;
+        this.dia = dia;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.salon = salon;
+        this.nota = nota;
+    }
 
     public Clase(Integer idClase, Integer idEE, String nombre, String dia, Time horaInicio, Time horaFin, String salon, String nota) {
         super();

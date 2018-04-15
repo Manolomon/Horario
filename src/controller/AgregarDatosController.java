@@ -8,37 +8,47 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
+import model.DAO.ClaseDAO;
+import model.DAO.EEDAO;
+import model.pojos.Clase;
+import model.pojos.EE;
 
 /**
  *
  * @author Manolo
  */
 public class AgregarDatosController implements Initializable {
-    
+
     @FXML
     private JFXButton btn_back;
 
     @FXML
-    private JFXComboBox<String> cmb_ee;
+    private JFXComboBox<EE> cmb_ee;
 
     @FXML
     private JFXComboBox<String> cmb_dia;
-    
+
     @FXML
     private StackPane rootPane;
 
@@ -52,20 +62,21 @@ public class AgregarDatosController implements Initializable {
     private JFXTextField txt_salon;
 
     @FXML
-    private JFXTextField txt_profesor;
-
-    @FXML
     private JFXTextField txt_nota;
 
     @FXML
     private JFXButton btn_agregar;
 
+    private List<EE> experiencias;
+    private List<Clase> clases;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         rootPane.setOpacity(0);
         fadeInTransition();
+        initComboBox();
     }
-    
+
     public void fadeInTransition() {
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(300));
@@ -78,9 +89,65 @@ public class AgregarDatosController implements Initializable {
     @FXML
     void clickBack(ActionEvent event) {
         fadeOutTransition();
-        loadHorarioScene();
     }
-    
+
+    @FXML
+    void agregarClick(ActionEvent event) {
+        if (!camposIncompletos()) {
+            if (!time_inicio.getValue().isAfter(time_fin.getValue())) {
+                int idEE = cmb_ee.getSelectionModel().getSelectedItem().getIdEE();
+                String dia = cmb_dia.getValue();
+                Time horaInicio = java.sql.Time.valueOf(time_inicio.getValue());
+                Time horaFin = java.sql.Time.valueOf(time_fin.getValue());
+                String salon = txt_salon.getText();
+                String nota = txt_nota.getText();
+                Clase nuevaClase = new Clase(idEE, dia, horaInicio, horaFin, salon, nota);
+                if (ClaseDAO.registrar(nuevaClase)) {
+                    showDialog("Guardado", "Clase almacenada con éxito");
+                } else {
+                    showDialog("Error", "No se pudo almacenar en la Base de Datos");
+                }
+                fadeOutTransition();
+                loadHorarioScene();
+            } else {
+                showDialog("Formato de Hora", "Las horas de inicio y fin no son consistentes");
+            }
+        } else {
+            showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios");
+        }
+    }
+
+    /**
+     * Verificación de que todos los campos necesarios esten llenos
+     * @return Confirmación si los campos están vacíos
+     */
+    public boolean camposIncompletos() {
+        return cmb_ee.getValue() == null || cmb_dia.getValue() == null || time_inicio.getValue() == null
+                || time_fin.getValue() == null || txt_salon.getText().isEmpty() || txt_nota.getText().isEmpty();
+    }
+
+    /**
+     * Inicialización y muestra de un JFXDialog al centro de la pantalla, 
+     * mandando una advertencia a alguna operación
+     * @param head Título del dialog
+     * @param body Texto principal del dialog
+     */
+    public void showDialog(String head, String body) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(head));
+        content.setBody(new Text(body));
+        JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton aceptar = new JFXButton("ACEPTAR");
+        aceptar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                dialog.close();
+            }
+        });
+        content.setActions(aceptar);
+        dialog.show();
+    }
+
     public void fadeOutTransition() {
         FadeTransition transition = new FadeTransition();
         transition.setDuration(Duration.millis(300));
@@ -92,17 +159,40 @@ public class AgregarDatosController implements Initializable {
         });
         transition.play();
     }
- //hgfsdhjgsdjhg
-    public void loadHorarioScene(){
+
+    public void loadHorarioScene() {
         try {
-            Parent horarioView;
+            StackPane horarioView;
             horarioView = FXMLLoader.load(getClass().getResource("/view/FXMLHorario.fxml"));
             Scene newScene = new Scene(horarioView);
+            newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
             Stage curStage = (Stage) rootPane.getScene().getWindow();
             curStage.setScene(newScene);
-        } catch (IOException e){
+            curStage.show();
+        } catch (IOException e) {
             System.out.println("No se enecontró: " + e);
         }
     }
-    
+
+    public void initComboBox() {
+        experiencias = EEDAO.getAllEEs();
+        cmb_ee.getItems().addAll(experiencias);
+        cmb_ee.setConverter(new StringConverter<EE>() {
+            @Override
+            public String toString(EE experiencia) {
+                if (experiencia == null) {
+                    return "";
+                } else {
+                    return experiencia.getNombre();
+                }
+            }
+
+            @Override
+            public EE fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+        cmb_dia.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo");
+    }
+
 }

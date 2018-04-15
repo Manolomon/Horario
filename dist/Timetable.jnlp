@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="Timetable.jar" size="56167" download="eager" />
+    <jar href="Timetable.jar" size="66095" download="eager" />
     <jar href="lib\jfoenix-8.0.1.jar" size="2405715" download="eager" />
     <jar href="lib\jfxtras-labs-samples-8.0-r6-SNAPSHOT-all.jar" size="4785232" download="eager" />
     <jar href="lib\mybatis-3.3.1.jar" size="1567287" download="eager" />

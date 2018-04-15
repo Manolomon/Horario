@@ -23,12 +23,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="DayOfWeek" textFill="#757575">
+            <Label fx:id="label_DayOfWeek" accessibleText="lable_weekDay" text="DayOfWeek" textFill="#757575">
                <GridPane.margin>
                   <Insets left="25.0" />
                </GridPane.margin>
             </Label>
-            <Label text="de horaInicio a horaFin" textFill="#757575" GridPane.rowIndex="1">
+            <Label fx:id="label_FromTo" accessibleText="label_FromTo" text="de horaInicio a horaFin" textFill="#757575" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="25.0" />
                </GridPane.margin>
@@ -46,12 +46,12 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <JFXButton alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #F5F5F5;" text="ELIMINAR" textAlignment="CENTER" />
+                  <JFXButton fx:id="button_Eliminar" accessibleText="buttom_eliminar" alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #F5F5F5;" text="ELIMINAR" textAlignment="CENTER" />
                </children>
             </HBox>
             <HBox alignment="CENTER" GridPane.columnIndex="1">
                <children>
-                  <JFXButton alignment="CENTER" contentDisplay="CENTER" maxWidth="110.0" minWidth="86.0" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #F5F5F5;" text="EDITAR" textAlignment="CENTER" />
+                  <JFXButton fx:id="button_Editar" accessibleText="buttom_editar" alignment="CENTER" contentDisplay="CENTER" maxWidth="110.0" minWidth="86.0" prefHeight="31.0" prefWidth="110.0" style="-fx-background-color: #F5F5F5;" text="EDITAR" textAlignment="CENTER" />
                </children>
             </HBox>
          </children>
@@ -83,7 +83,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
                   <Label text="Lugar" textFill="#757575" />
-                  <Label text="Lugar">
+                  <Label fx:id="label_Lugar" accessibleText="label_lugar" text="Lugar">
                      <font>
                         <Font size="17.0" />
                      </font>

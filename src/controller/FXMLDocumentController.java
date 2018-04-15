@@ -19,23 +19,31 @@ import java.util.TreeMap;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
+import jfxtras.scene.layout.GridPane;
+import jfxtras.scene.layout.HBox;
 import model.DAO.ClaseDAO;
 import model.DAO.EEDAO;
 import model.pojos.Clase;
@@ -64,7 +72,27 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private JFXDrawer drawer;
-
+    
+    // ==================================================================================================================
+        // Componentes del JFXDialog, obtenidos de /view/FXMLDatosClase.fxml
+    
+//    @FXML
+//    private Label label_DayOfWeek;
+//
+//    @FXML
+//    private Label label_FromTo;
+//
+//    @FXML
+//    private JFXButton button_Eliminar;
+//
+//    @FXML
+//    private JFXButton button_Editar;
+//
+//    @FXML
+//    private Label label_Lugar;
+    
+    // ==================================================================================================================
+        // Lista de datos de la Base de Datos
     private List<EE> experiencias;
     private List<Clase> clases;
     private final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
@@ -109,7 +137,7 @@ public class FXMLDocumentController implements Initializable {
         agenda.setActionCallback(new Callback<Appointment, Void>() {
             @Override
             public Void call(Appointment clase) {
-                mostrarDatosClase();
+                mostrarDatosClase(clase);
                 return null;
             }
         });
@@ -132,7 +160,6 @@ public class FXMLDocumentController implements Initializable {
             int i;
             for (Clase c : clases) {
                 i = c.getIdEE();
-                System.out.println(i);
                 c.setAppointmentGroup(lAppointmentGroupMap.get("group" + (i < 10 ? "0" : "") + i));
             }
             agenda.appointments().addAll(clases);
@@ -144,27 +171,20 @@ public class FXMLDocumentController implements Initializable {
         fadeOutTransition();
     }
 
-    public void mostrarDatosClase() {
+    //TODO: Eliminar y Editar clases
+    public void mostrarDatosClase(Appointment clase) {
         JFXDialogLayout content = new JFXDialogLayout();
-        try {
-            VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDatosClase.fxml"));
-            content.setHeading(new Text("Nombre de Clase"));
-            content.setBody(box);
-        } catch (IOException e) {
-            System.out.println("No se encontró la GUI");
-        }
+        content.setHeading(new Text(clase.getSummary()));
+        content.setBody();
+        System.out.println(clase.getLocation());
         JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton aceptar = new JFXButton("ACEPTAR");
-        aceptar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                dialog.close();
-            }
+        aceptar.setOnAction((ActionEvent e) -> {
+            dialog.close();
         });
         content.setActions(aceptar);
         dialog.show();
     }
-
 
     public void fadeInTransition() {
         FadeTransition transition = new FadeTransition();
@@ -195,11 +215,13 @@ public class FXMLDocumentController implements Initializable {
             Scene newScene = new Scene(agregarView);
             Stage curStage = (Stage) rootPane.getScene().getWindow();
             curStage.setScene(newScene);
+            curStage.show();
         } catch (IOException e){
             System.out.println("No se enecontró: " + e);
         }
     }
 }
+
 /*
 Para fecha:
 
