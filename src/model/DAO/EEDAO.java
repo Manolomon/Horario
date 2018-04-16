@@ -39,6 +39,26 @@ public class EEDAO {
     }
 
     /**
+     * Buscador de EE con un id en específico
+     * @return Lista de los EEs encontrados
+     */
+    public static List<EE> obtenerEE(int idEE) {
+        List<EE> lista = new ArrayList<EE>();
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            lista = conn.selectList("EE.obtenerEE", idEE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return lista;
+    }
+
+    /**
      * Se almacena un nuevo EE en la Base de Datos
      * @param EE Objeto EE para registrarlo
      * @return Confirmación si se pudo registrar el EE con éxito

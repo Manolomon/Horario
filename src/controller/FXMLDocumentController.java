@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -140,9 +141,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void agregarClase(ActionEvent event) {
         fadeOutTransition();
+        loadAgregarScene();
     }
 
-    //TODO: Eliminar y Editar clases
     public void mostrarDatosClase(Appointment appo) {
         Clase clase = buscarClase(appo); 
         JFXDialogLayout content = new JFXDialogLayout();
@@ -158,9 +159,16 @@ public class FXMLDocumentController implements Initializable {
         display.montarDatos(clase);
         VBox p = loader.getRoot();
         content.setBody(p);
-        System.out.println(clase.getLocation());
         JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton aceptar = new JFXButton("ACEPTAR");
+        display.getButtonEliminar().setOnAction((ActionEvent e) -> {
+            eliminarClase();
+            dialog.close();
+        });
+        
+        display.getButtonEditar().setOnAction((ActionEvent e) -> {
+            modificarClase(clase);
+        });
         aceptar.setOnAction((ActionEvent e) -> {
             dialog.close();
         });
@@ -183,10 +191,6 @@ public class FXMLDocumentController implements Initializable {
         transition.setNode(rootPane);
         transition.setFromValue(1);
         transition.setToValue(0);
-
-        transition.setOnFinished((ActionEvent event) -> {
-            loadAgregarScene();
-        });
         transition.play();
     }
 
@@ -216,8 +220,55 @@ public class FXMLDocumentController implements Initializable {
         return null;
     }
     
+    /**
+     * Inicialización y muestra de un JFXDialog al centro de la pantalla, 
+     * mandando una advertencia a alguna operación
+     * @param head Título del dialog
+     * @param body Texto principal del dialog
+     */
+    public void showDialog(String head, String body) {
+        JFXDialogLayout content = new JFXDialogLayout();
+        content.setHeading(new Text(head));
+        content.setBody(new Text(body));
+        JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+        JFXButton aceptar = new JFXButton("ACEPTAR");
+        aceptar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                dialog.close();
+            }
+        });
+        content.setActions(aceptar);
+        dialog.show();
+    }
+    
     public void eliminarClase() {
         Clase porEliminar = buscarClase(agenda.selectedAppointments().get(0));
+        int idClase = porEliminar.getIdClase();
+        if (ClaseDAO.eliminar(idClase)) {
+            showDialog("Eliminado", "Contacto eliminado con éxito");
+            cargarClases();
+        } else {
+            showDialog("Error", "No se pudo eliminar el contacto");
+        }
+    }
+
+    public void modificarClase(Clase clase){
+        fadeOutTransition();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/AgregarDatos.fxml"));
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        AgregarDatosController display = loader.getController();
+        display.modificarClase(clase);
+        StackPane agregarView = loader.getRoot();
+        Scene newScene = new Scene(agregarView);
+        Stage curStage = (Stage) rootPane.getScene().getWindow();
+        curStage.setScene(newScene);
+        curStage.show();
     }
 }
 

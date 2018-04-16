@@ -23,7 +23,7 @@
          <children>
             <AnchorPane prefHeight="58.0" prefWidth="733.0" style="-fx-background-color: #3e52b2;">
                <children>
-                  <Label layoutX="79.0" layoutY="16.0" text="Agregar Contacto" textFill="WHITE">
+                  <Label fx:id="pageTitle" layoutX="79.0" layoutY="16.0" text="Agregar Contacto" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>

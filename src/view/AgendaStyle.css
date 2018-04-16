@@ -8,11 +8,6 @@ and open the template in the editor.
     Author     : Manolo
 */
 
-.jfx-hamburger StackPane {
-	-fx-background-color: #ffffff;
-}
-
-
 @font-face {
 
 	src: url("/roboto/RobotoCondensed-Light.ttf");
@@ -24,7 +19,7 @@ and open the template in the editor.
 .Agenda { 
 
 	-fx-font-family: "Roboto Condensed Light"; 	
-
+	-fx-focus-color: transparent;
 }
 
 

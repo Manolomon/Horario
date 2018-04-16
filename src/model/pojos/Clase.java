@@ -104,6 +104,17 @@ public class Clase extends AppointmentImplLocal {
         this.salon = salon;
         this.nota = nota;
     }
+    
+    //Actualizar
+    public Clase(Integer idClase, Integer idEE, String dia, Time horaInicio, Time horaFin, String salon, String nota){
+        this.idClase = idClase;
+        this.idEE = idEE;
+        this.dia = dia;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.salon = salon;
+        this.nota = nota;
+    }
 
     /**
      * Constructor para los datos obtenidos de la Base de Datos

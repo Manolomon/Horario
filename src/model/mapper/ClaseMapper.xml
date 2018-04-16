@@ -29,17 +29,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <update id="actualizar" parameterType="model.pojos.Clase">
         UPDATE Clase SET
-        idEE = #{idEE}
+        idEE = #{idEE},
         dia = #{dia},
         horaInicio = #{horaInicio},
         horaFin = #{horaFin},
         salon = #{salon},
-        nota = #{nota},
+        nota = #{nota}
         WHERE idClase = #{idClase}
     </update>
 
     <delete id="eliminar" parameterType="int">
-        DELETE FROM Contacto WHERE idClase = #{idClase}
+        DELETE FROM Clase WHERE idClase = #{idClase}
     </delete>
 
     <delete id="eliminarClases" parameterType="int">

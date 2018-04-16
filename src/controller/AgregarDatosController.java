@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -48,6 +49,9 @@ public class AgregarDatosController implements Initializable {
 
     @FXML
     private JFXComboBox<String> cmb_dia;
+    
+    @FXML
+    private Label pageTitle;
 
     @FXML
     private StackPane rootPane;
@@ -72,6 +76,7 @@ public class AgregarDatosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        experiencias = EEDAO.getAllEEs();
         rootPane.setOpacity(0);
         fadeInTransition();
         initComboBox();
@@ -103,17 +108,15 @@ public class AgregarDatosController implements Initializable {
                 String nota = txt_nota.getText();
                 Clase nuevaClase = new Clase(idEE, dia, horaInicio, horaFin, salon, nota);
                 if (ClaseDAO.registrar(nuevaClase)) {
-                    showDialog("Guardado", "Clase almacenada con éxito");
+                    showDialog("Guardado", "Clase almacenada con éxito", true);
                 } else {
-                    showDialog("Error", "No se pudo almacenar en la Base de Datos");
+                    showDialog("Error", "No se pudo almacenar en la Base de Datos", true);
                 }
-                fadeOutTransition();
-                loadHorarioScene();
             } else {
-                showDialog("Formato de Hora", "Las horas de inicio y fin no son consistentes");
+                showDialog("Formato de Hora", "Las horas de inicio y fin no son consistentes", false);
             }
         } else {
-            showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios");
+            showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios", false);
         }
     }
 
@@ -132,7 +135,7 @@ public class AgregarDatosController implements Initializable {
      * @param head Título del dialog
      * @param body Texto principal del dialog
      */
-    public void showDialog(String head, String body) {
+    public void showDialog(String head, String body, boolean salir) {
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(head));
         content.setBody(new Text(body));
@@ -142,10 +145,54 @@ public class AgregarDatosController implements Initializable {
             @Override
             public void handle(ActionEvent e) {
                 dialog.close();
+                if(salir){
+                    fadeOutTransition();
+                }
             }
         });
         content.setActions(aceptar);
         dialog.show();
+    }
+    
+    public void modificarClase(Clase clase) {
+        for(EE e: experiencias){
+            if(e.getIdEE() == clase.getIdEE()){
+               cmb_ee.getSelectionModel().select(e);
+            }
+        }
+        pageTitle.setText("Modificar Contacto");
+        cmb_dia.getSelectionModel().select(clase.getDia());
+        time_inicio.setValue(clase.getHoraInicio().toLocalTime());
+        time_fin.setValue(clase.getHoraFin().toLocalTime());
+        txt_salon.setText(clase.getSalon());
+        txt_nota.setText(clase.getNota());
+        btn_agregar.setText("Actualizar");
+        
+        btn_agregar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                if (!camposIncompletos()) {
+                    if (!time_inicio.getValue().isAfter(time_fin.getValue())) {
+                        int idEE = cmb_ee.getSelectionModel().getSelectedItem().getIdEE();
+                        String dia = cmb_dia.getValue();
+                        Time horaInicio = java.sql.Time.valueOf(time_inicio.getValue());
+                        Time horaFin = java.sql.Time.valueOf(time_fin.getValue());
+                        String salon = txt_salon.getText();
+                        String nota = txt_nota.getText();
+                        Clase nuevaClase = new Clase(clase.getIdClase(), idEE, dia, horaInicio, horaFin, salon, nota);
+                        if (ClaseDAO.actualizar(nuevaClase)) {
+                            showDialog("Actualizado", "Clase actualizada con éxito", true);
+                        } else {
+                            showDialog("Error", "No se pudo actualizar en la Base de Datos", true);
+                        }
+                    } else {
+                        showDialog("Formato de Hora", "Las horas de inicio y fin no son consistentes", false);
+                    }
+                } else {
+                    showDialog("Campos Incompletos", "Por favor llene todos los campos necesarios", false);
+                }
+            }
+        });
     }
 
     public void fadeOutTransition() {
@@ -175,7 +222,6 @@ public class AgregarDatosController implements Initializable {
     }
 
     public void initComboBox() {
-        experiencias = EEDAO.getAllEEs();
         cmb_ee.getItems().addAll(experiencias);
         cmb_ee.setConverter(new StringConverter<EE>() {
             @Override

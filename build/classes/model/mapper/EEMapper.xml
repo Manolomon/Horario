@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="obtenerEE" resultType="model.pojos.EE"
         parameterType="int">
-        SELECT idEE, nombre, profesor FROM EE WHERE idEE LIKE #{idEE}
+        SELECT idEE, nombre, profesor FROM EE WHERE idEE = #{idEE}
     </select>
     
     <insert id="registrar" parameterType="model.pojos.EE">

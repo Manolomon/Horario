@@ -44,6 +44,14 @@ public class DatosClaseController implements Initializable {
         
     }
     
+    public JFXButton getButtonEliminar() {
+        return this.button_Eliminar;
+    }
+    
+    public JFXButton getButtonEditar() {
+        return this.button_Editar;
+    }
+    
     public void montarDatos(Clase clase) {
         label_DayOfWeek.setText(clase.getDia());
         label_FromTo.setText("Desde " + clase.getHoraInicio().toString() + " hasta " + clase.getHoraFin().toString());
