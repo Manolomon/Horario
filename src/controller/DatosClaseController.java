@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import jfxtras.scene.control.agenda.Agenda.Appointment;
+import model.pojos.Clase;
 
 /**
  *
@@ -42,5 +42,11 @@ public class DatosClaseController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
+    }
+    
+    public void montarDatos(Clase clase) {
+        label_DayOfWeek.setText(clase.getDia());
+        label_FromTo.setText("Desde " + clase.getHoraInicio().toString() + " hasta " + clase.getHoraFin().toString());
+        label_Lugar.setText(clase.getSalon());
     }
 }

@@ -4,14 +4,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Clase">
+    <!-- Obtener TODAS las Clases en la Base de Datos -->
     <select id="getAllClases" resultType="model.pojos.Clase">
         SELECT Clase.idClase, EE.idEE, EE.nombre, Clase.dia, Clase.horaInicio, Clase.horaFin, Clase.salon, Clase.nota FROM Clase INNER JOIN EE ON Clase.idEE = EE.idEE;
     </select>
     
+    <!-- Obtener TODAS las Clases en la Base de Datos asociadas con una EE especifica -->
     <select id="obtenerClasesAsociadas" resultType="model.pojos.Clase"
         parameterType="int">
         SELECT idClase, idEE, dia, horaInicio, horaFin, salon, nota FROM Clase
         WHERE idEE LIKE #{idEE}
+    </select>
+
+    <select id="obtenerClasePorAppointement" resultType="model.pojos.Clase"
+        parameterType="model.pojos.Clase">
+        SELECT idClase, idEE, dia, horaInicio, horaFin, salon, nota FROM Clase
+        WHERE idEE = #{idEE} AND 
     </select>
     
     <insert id="registrar" parameterType="model.pojos.Clase">

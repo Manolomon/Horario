@@ -6,6 +6,7 @@
 package model.pojos;
 
 import java.sql.Time;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -104,6 +105,16 @@ public class Clase extends AppointmentImplLocal {
         this.nota = nota;
     }
 
+    /**
+     * Constructor para los datos obtenidos de la Base de Datos
+     * @param idClase
+     * @param idEE
+     * @param nombre
+     * @param dia
+     * @param horaInicio
+     * @param horaFin
+     * @param salon
+     * @param nota     */
     public Clase(Integer idClase, Integer idEE, String nombre, String dia, Time horaInicio, Time horaFin, String salon, String nota) {
         super();
         int cant = 0;
@@ -130,9 +141,10 @@ public class Clase extends AppointmentImplLocal {
             cant = 6;
             break;
         }
+        LocalDate thisWeekLunes = LocalDate.now().with(DayOfWeek.MONDAY).plusDays(cant);
         this.idEE = idEE;
-        this.setStartLocalDateTime(LocalDateTime.of(LocalDate.of(2018, Month.APRIL, 9 + cant), horaInicio.toLocalTime()));
-        this.setEndLocalDateTime(LocalDateTime.of(LocalDate.of(2018, Month.APRIL, 9 + cant), horaFin.toLocalTime()));
+        this.setStartLocalDateTime(LocalDateTime.of(thisWeekLunes, horaInicio.toLocalTime()));
+        this.setEndLocalDateTime(LocalDateTime.of(thisWeekLunes, horaFin.toLocalTime()));
         this.setLocation(salon);
         this.setSummary(nombre);
         this.setDescription(nota);

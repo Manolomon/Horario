@@ -6,7 +6,6 @@
 package controller;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXDrawer;
@@ -16,34 +15,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
-import jfxtras.scene.layout.GridPane;
-import jfxtras.scene.layout.HBox;
 import model.DAO.ClaseDAO;
 import model.DAO.EEDAO;
 import model.pojos.Clase;
@@ -72,27 +63,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private JFXDrawer drawer;
-    
+
     // ==================================================================================================================
-        // Componentes del JFXDialog, obtenidos de /view/FXMLDatosClase.fxml
-    
-//    @FXML
-//    private Label label_DayOfWeek;
-//
-//    @FXML
-//    private Label label_FromTo;
-//
-//    @FXML
-//    private JFXButton button_Eliminar;
-//
-//    @FXML
-//    private JFXButton button_Editar;
-//
-//    @FXML
-//    private Label label_Lugar;
-    
-    // ==================================================================================================================
-        // Lista de datos de la Base de Datos
+    // Lista de datos de la Base de Datos
     private List<EE> experiencias;
     private List<Clase> clases;
     private final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
@@ -128,8 +101,6 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void prepararAgenda() {
-        JFXCheckBox ch = new JFXCheckBox();
-        ch.setSelected(false);
         //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
         for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
             lAppointmentGroupMap.put(lAppointmentGroup.getDescription(), lAppointmentGroup);
@@ -144,12 +115,12 @@ public class FXMLDocumentController implements Initializable {
         agenda.setEditAppointmentCallback(new Callback<Appointment, Void>() {
             @Override
             public Void call(Appointment clase) {
-
+                
                 return null;
             }
         });
-        agenda.allowDraggingProperty().bind(ch.selectedProperty());
-        agenda.allowResizeProperty().bind(ch.selectedProperty());
+        agenda.setAllowDragging(false);
+        agenda.setAllowResize(false);
     }
 
     public void cargarClases() {
@@ -172,10 +143,21 @@ public class FXMLDocumentController implements Initializable {
     }
 
     //TODO: Eliminar y Editar clases
-    public void mostrarDatosClase(Appointment clase) {
+    public void mostrarDatosClase(Appointment appo) {
+        Clase clase = buscarClase(appo); 
         JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(clase.getSummary()));
-        content.setBody();
+        content.setHeading(new Text(appo.getSummary()));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/FXMLDatosClase.fxml"));
+        try {
+            loader.load();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        DatosClaseController display = loader.getController();
+        display.montarDatos(clase);
+        VBox p = loader.getRoot();
+        content.setBody(p);
         System.out.println(clase.getLocation());
         JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
         JFXButton aceptar = new JFXButton("ACEPTAR");
@@ -208,7 +190,7 @@ public class FXMLDocumentController implements Initializable {
         transition.play();
     }
 
-    public void loadAgregarScene(){
+    public void loadAgregarScene() {
         try {
             StackPane agregarView;
             agregarView = FXMLLoader.load(getClass().getResource("/view/AgregarDatos.fxml"));
@@ -216,9 +198,26 @@ public class FXMLDocumentController implements Initializable {
             Stage curStage = (Stage) rootPane.getScene().getWindow();
             curStage.setScene(newScene);
             curStage.show();
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("No se enecontró: " + e);
         }
+    }
+
+    public Clase buscarClase(Appointment clase) {
+        for (Clase c : clases) {
+            if (c.getDescription() == clase.getDescription()
+                    && c.getStartLocalDateTime() == clase.getStartLocalDateTime()
+                    && c.getLocation() == clase.getLocation() 
+                    && c.getSummary() == clase.getSummary()
+                    && c.getEndLocalDateTime() == clase.getEndLocalDateTime()) {
+                return c;
+            }
+        }
+        return null;
+    }
+    
+    public void eliminarClase() {
+        Clase porEliminar = buscarClase(agenda.selectedAppointments().get(0));
     }
 }
 
