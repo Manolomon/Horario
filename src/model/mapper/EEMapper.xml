@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="EE">
     <select id="obtener" resultType="model.pojos.EE">
-        SELECT idEE, nombre, profesor FROM EE
+        SELECT idEE, nombre, profesor FROM EE ORDER BY nombre
     </select>
 
     <select id="obtenerEE" resultType="model.pojos.EE"
@@ -21,7 +21,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="actualizar" parameterType="model.pojos.EE">
         UPDATE EE SET
         nombre = #{nombre},
-        profesor = #{profesor},
+        profesor = #{profesor}
         WHERE idEE = #{idEE}
     </update>
 

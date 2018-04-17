@@ -25,7 +25,7 @@
             <Label layoutX="112.0" layoutY="79.0" text="Gestor de Horarios" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <JFXButton alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="319.0" ripplerFill="#ff4081" text="     Horario">
+      <JFXButton accessibleText="Horario" alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="319.0" ripplerFill="#ff4081" text="     Horario">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="36.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -34,7 +34,7 @@
             </ImageView>
          </graphic>
       </JFXButton>
-      <JFXButton alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="292.0" ripplerFill="#ff4081" text="     Experiencias Educativas">
+      <JFXButton accessibleText="Experiencias" alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="292.0" ripplerFill="#ff4081" text="     Experiencias Educativas">
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="36.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <image>

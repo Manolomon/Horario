@@ -64,7 +64,7 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <JFXComboBox fx:id="cmb_ee" focusColor="#ff4081" prefHeight="29.0" prefWidth="560.0" promptText="Experiencia Educativa" />
+                              <JFXComboBox fx:id="cmb_ee" focusColor="#ff4081" prefHeight="29.0" prefWidth="560.0" promptText="Experiencia Educativa" style="-fx-background-color: #F5F5F5;" />
                            </children>
                         </HBox>
                      </children>
@@ -99,7 +99,7 @@
                               </HBox>
                               <HBox alignment="CENTER" prefHeight="64.0" prefWidth="613.0" GridPane.columnIndex="1">
                                  <children>
-                                    <JFXComboBox fx:id="cmb_dia" focusColor="#ff4081" prefHeight="28.0" prefWidth="560.0" promptText="Día de la semana" visibleRowCount="7" />
+                                    <JFXComboBox fx:id="cmb_dia" focusColor="#ff4081" prefHeight="28.0" prefWidth="560.0" promptText="Día de la semana" style="-fx-background-color: #F5F5F5;" visibleRowCount="7" />
                                  </children>
                               </HBox>
                            </children>
@@ -178,12 +178,12 @@
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="70.0" prefWidth="615.0" GridPane.columnIndex="1">
                            <children>
-                              <JFXTextField fx:id="txt_salon" focusColor="#ff4081" labelFloat="true" prefWidth="560.0" promptText="Salón" />
+                              <JFXTextField fx:id="txt_salon" focusColor="#ff4081" labelFloat="true" prefHeight="31.0" prefWidth="539.0" promptText="Salón" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <JFXTextField fx:id="txt_nota" focusColor="#ff4081" labelFloat="true" prefWidth="560.0" promptText="Nota" />
+                              <JFXTextField fx:id="txt_nota" focusColor="#ff4081" labelFloat="true" prefHeight="31.0" prefWidth="539.0" promptText="Nota" />
                            </children>
                         </HBox>
                      </children>

@@ -49,7 +49,7 @@ public class AgregarDatosController implements Initializable {
 
     @FXML
     private JFXComboBox<String> cmb_dia;
-    
+
     @FXML
     private Label pageTitle;
 
@@ -134,6 +134,7 @@ public class AgregarDatosController implements Initializable {
      * mandando una advertencia a alguna operación
      * @param head Título del dialog
      * @param body Texto principal del dialog
+     * @param salir Si el boton de Aceptar sale de la pantalla
      */
     public void showDialog(String head, String body, boolean salir) {
         JFXDialogLayout content = new JFXDialogLayout();
@@ -145,7 +146,7 @@ public class AgregarDatosController implements Initializable {
             @Override
             public void handle(ActionEvent e) {
                 dialog.close();
-                if(salir){
+                if (salir) {
                     fadeOutTransition();
                 }
             }
@@ -153,11 +154,11 @@ public class AgregarDatosController implements Initializable {
         content.setActions(aceptar);
         dialog.show();
     }
-    
+
     public void modificarClase(Clase clase) {
-        for(EE e: experiencias){
-            if(e.getIdEE() == clase.getIdEE()){
-               cmb_ee.getSelectionModel().select(e);
+        for (EE e : experiencias) {
+            if (e.getIdEE() == clase.getIdEE()) {
+                cmb_ee.getSelectionModel().select(e);
             }
         }
         pageTitle.setText("Modificar Contacto");
@@ -167,7 +168,7 @@ public class AgregarDatosController implements Initializable {
         txt_salon.setText(clase.getSalon());
         txt_nota.setText(clase.getNota());
         btn_agregar.setText("Actualizar");
-        
+
         btn_agregar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {

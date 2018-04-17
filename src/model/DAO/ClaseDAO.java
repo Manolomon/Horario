@@ -39,6 +39,27 @@ public class ClaseDAO {
     }
 
     /**
+     * Buscador de todas los Clases relacionadas a una EE específica
+     * @param idEE El identificador de la EE asociada
+     * @return Lista de los Clases encontrados
+     */
+    public static List<Clase> obtenerClasesAsociadas(int idEE) {
+        List<Clase> lista = new ArrayList<Clase>();
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            lista = conn.selectList("Clase.obtenerClasesAsociadas", idEE);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return lista;
+    }
+
+    /**
      * Se almacena un nuevo Clase en la Base de Datos
      * @param Clase Objeto Clase para registrarlo
      * @return Confirmación si se pudo registrar el Clase con éxito
@@ -92,6 +113,28 @@ public class ClaseDAO {
         try {
             conn = MyBatisUtils.getSession();
             conn.delete("Clase.eliminar", idClase);
+            conn.commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Se eliminan las Clases asociadas a una EE específica
+     * @param idEE Identificador de un Clase ya registrado en la Base de Datos
+     * @return Confirmación si se pudo eliminar el Clase con éxito
+     */
+    public static boolean eliminarClases(int idEE) {
+        SqlSession conn = null;
+        try {
+            conn = MyBatisUtils.getSession();
+            conn.delete("Clase.eliminarClases", idEE);
             conn.commit();
             return true;
         } catch (Exception ex) {

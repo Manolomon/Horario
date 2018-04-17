@@ -2,7 +2,7 @@
 
 Proyecto Horario, orientado a un estudiante con un modelo educativo similar al que se observa en la Facultad. Se debe poder:
 
-* [ ] Agregar distintas Experiencias Educativas, las cuales se impartiran una o más veces por semana, en distintos horarios y salones
+* [x] Agregar distintas Experiencias Educativas, las cuales se impartiran una o más veces por semana, en distintos horarios y salones
 * [x] Obtener una vista general del horario
 * [X] Gestionar las clases individuales de cada Experiencia Educativa
 * [X] Almacenar la información en una base de datos SQL
@@ -44,6 +44,20 @@ Escribir un programa en java para el manejo de horarios de clase de los estudian
 
 ![Prototipo](/doc/Horario.png)
 
+## Version Final
+
+### Vista General
+
+![Version Final](/doc/Horario_Finale.png)
+
+### Agregar Clases
+
+![Prototipo](/doc/HorarioAgregarClase_Finale.png)
+
+### Vista General de Experiencias Educativas
+
+![Prototipo](/doc/HorarioEE_Finale.png)
+
 ## Diagrama de Casos de Uso
 
 ![Casos de Uso](/doc/CasosUso.png)
@@ -51,3 +65,27 @@ Escribir un programa en java para el manejo de horarios de clase de los estudian
 ## Modelo de Dominio
 
 ![Modelo de Dominio](/doc/ModeloDominio.png)
+
+## Base de Datos
+
+Archivo reservado para la carga en MySQL en /database/Horario.sql
+
+### EE
+
+| Field    | Type         | Null | Key | Default | Extra          |
+| -------- | ------------ | ---- | --- | ------- | -------------- |
+| idEE     | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nombre   | varchar(255) | NO   |     | NULL    |                |
+| profesor | varchar(255) | NO   |     | NULL    |                |
+
+### Clase
+
+| Field      | Type        | Null | Key | Default | Extra          |
+| ---------- | ----------- | ---- | --- | ------- | -------------- |
+| idClase    | int(11)     | NO   | PRI | NULL    | auto_increment |
+| idEE       | int(11)     | NO   | PRI | NULL    |                |
+| dia        | varchar(15) | NO   |     | NULL    |                |
+| horaInicio | time        | NO   |     | NULL    |                |
+| horaFin    | time        | NO   |     | NULL    |                |
+| salon      | varchar(50) | NO   |     | NULL    |                |
+| nota       | text        | YES  |     | NULL    |                |

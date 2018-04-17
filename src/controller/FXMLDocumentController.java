@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
@@ -32,7 +33,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import jfxtras.scene.control.agenda.Agenda;
 import jfxtras.scene.control.agenda.Agenda.Appointment;
@@ -69,7 +69,7 @@ public class FXMLDocumentController implements Initializable {
     // Lista de datos de la Base de Datos
     private List<EE> experiencias;
     private List<Clase> clases;
-    private final Map<String, Agenda.AppointmentGroup> lAppointmentGroupMap = new TreeMap<String, Agenda.AppointmentGroup>();
+    private final Map<String, Agenda.AppointmentGroup> mapaDeGrupos = new TreeMap<String, Agenda.AppointmentGroup>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,6 +86,21 @@ public class FXMLDocumentController implements Initializable {
     public void clickHamburger(ActionEvent event) {
         try {
             VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDrawer.fxml"));
+            for (Node node : box.getChildren()) {
+                node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+                    if (node.getAccessibleText() != null) {
+                        switch (node.getAccessibleText()) {
+                        case "Horario":
+                            drawer.close();
+                            drawer.setMouseTransparent(true);
+                            break;
+                        case "Experiencias":
+                            cargarExperiencias();
+                            break;
+                        }
+                    }
+                });
+            }
             drawer.setSidePane(box);
             drawer.setEffect(new DropShadow());
             drawer.open();
@@ -102,24 +117,14 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void prepararAgenda() {
-        //lAppointmentGroupMap.put("group" + (i < 10 ? "0" : "") + i, new Agenda.AppointmentGroupImpl().withStyleClass("group" + i))
-        for (Agenda.AppointmentGroup lAppointmentGroup : agenda.appointmentGroups()) {
-            lAppointmentGroupMap.put(lAppointmentGroup.getDescription(), lAppointmentGroup);
+        for (Agenda.AppointmentGroup grupo : agenda.appointmentGroups()) {
+            mapaDeGrupos.put(grupo.getDescription(), grupo);
         }
-        agenda.setActionCallback(new Callback<Appointment, Void>() {
-            @Override
-            public Void call(Appointment clase) {
-                mostrarDatosClase(clase);
-                return null;
-            }
+        agenda.setActionCallback((Appointment clase) -> {
+            mostrarDatosClase(clase);
+            return null;
         });
-        agenda.setEditAppointmentCallback(new Callback<Appointment, Void>() {
-            @Override
-            public Void call(Appointment clase) {
-                
-                return null;
-            }
-        });
+        agenda.setEditAppointmentCallback((Appointment clase) -> null);
         agenda.setAllowDragging(false);
         agenda.setAllowResize(false);
     }
@@ -129,10 +134,14 @@ public class FXMLDocumentController implements Initializable {
         experiencias = EEDAO.getAllEEs();
         clases = ClaseDAO.getAllClases();
         if (!clases.isEmpty()) {
-            int i;
+            int i, cont = clases.get(0).getIdEE(), sum = 1;
             for (Clase c : clases) {
-                i = c.getIdEE();
-                c.setAppointmentGroup(lAppointmentGroupMap.get("group" + (i < 10 ? "0" : "") + i));
+                i = c. getIdEE();
+                if (cont != i) {
+                    cont = c.getIdEE();
+                    sum++;
+                }
+                c.setAppointmentGroup(mapaDeGrupos.get("group" + (sum < 10 ? "0" : "") + sum));
             }
             agenda.appointments().addAll(clases);
         }
@@ -145,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void mostrarDatosClase(Appointment appo) {
-        Clase clase = buscarClase(appo); 
+        Clase clase = buscarClase(appo);
         JFXDialogLayout content = new JFXDialogLayout();
         content.setHeading(new Text(appo.getSummary()));
         FXMLLoader loader = new FXMLLoader();
@@ -165,7 +174,7 @@ public class FXMLDocumentController implements Initializable {
             eliminarClase();
             dialog.close();
         });
-        
+
         display.getButtonEditar().setOnAction((ActionEvent e) -> {
             modificarClase(clase);
         });
@@ -199,6 +208,21 @@ public class FXMLDocumentController implements Initializable {
             StackPane agregarView;
             agregarView = FXMLLoader.load(getClass().getResource("/view/AgregarDatos.fxml"));
             Scene newScene = new Scene(agregarView);
+            newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
+            Stage curStage = (Stage) rootPane.getScene().getWindow();
+            curStage.setScene(newScene);
+            curStage.show();
+        } catch (IOException e) {
+            System.out.println("No se enecontró: " + e);
+        }
+    }
+
+    public void cargarExperiencias() {
+        try {
+            StackPane agregarView;
+            agregarView = FXMLLoader.load(getClass().getResource("/view/FXMLExperiencias.fxml"));
+            Scene newScene = new Scene(agregarView);
+            newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
             Stage curStage = (Stage) rootPane.getScene().getWindow();
             curStage.setScene(newScene);
             curStage.show();
@@ -211,15 +235,14 @@ public class FXMLDocumentController implements Initializable {
         for (Clase c : clases) {
             if (c.getDescription() == clase.getDescription()
                     && c.getStartLocalDateTime() == clase.getStartLocalDateTime()
-                    && c.getLocation() == clase.getLocation() 
-                    && c.getSummary() == clase.getSummary()
+                    && c.getLocation() == clase.getLocation() && c.getSummary() == clase.getSummary()
                     && c.getEndLocalDateTime() == clase.getEndLocalDateTime()) {
                 return c;
             }
         }
         return null;
     }
-    
+
     /**
      * Inicialización y muestra de un JFXDialog al centro de la pantalla, 
      * mandando una advertencia a alguna operación
@@ -241,7 +264,7 @@ public class FXMLDocumentController implements Initializable {
         content.setActions(aceptar);
         dialog.show();
     }
-    
+
     public void eliminarClase() {
         Clase porEliminar = buscarClase(agenda.selectedAppointments().get(0));
         int idClase = porEliminar.getIdClase();
@@ -253,7 +276,7 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    public void modificarClase(Clase clase){
+    public void modificarClase(Clase clase) {
         fadeOutTransition();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/AgregarDatos.fxml"));

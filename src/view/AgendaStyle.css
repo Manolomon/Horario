@@ -14,7 +14,69 @@ and open the template in the editor.
 
 }
 
+.root {
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+}
 
+.jfx-popup-container{
+    -fx-background-color: WHITE;
+}
+
+JFXListView .scroll-bar:horizontal .track,
+JFXListView .scroll-bar:vertical .track{
+    -fx-background-color:transparent;
+    -fx-border-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-border-radius:2em;
+}
+
+JFXListView .scroll-bar:horizontal .increment-button ,
+JFXListView .scroll-bar:horizontal .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 0 10 0;
+}
+
+JFXListView .scroll-bar:vertical .increment-button ,
+JFXListView .scroll-bar:vertical .decrement-button {
+    -fx-background-color:transparent;
+    -fx-background-radius: 0em;
+    -fx-padding:0 10 0 0;
+}
+JFXListView  .scroll-bar .increment-arrow,
+JFXListView  .scroll-bar .decrement-arrow{
+    -fx-shape:" ";  
+    -fx-padding:0;
+}
+
+JFXListView .scroll-bar:horizontal .thumb,
+JFXListView .scroll-bar:vertical .thumb {
+    -fx-background-color:derive(black,90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+.list-cell:even, .list-cell:odd, .list-cell:empty{
+    -fx-background-color: #FAFAFA;
+}
+
+.jfx-popup-container{
+    -fx-background-color: WHITE;
+}
+
+.jfx-list-cell:selected{
+    -fx-background-color: #BDBDBD;
+}
+
+.jfx-list-cell .jfx-list-cell{
+	-fx-rippler-fill: #FF4081;
+	-fx-border-radius: 50;
+}
+
+.jfx-list-cell:hover{
+    -fx-background-color: #C5CAE9;
+}
 
 .Agenda { 
 

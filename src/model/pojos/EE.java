@@ -14,6 +14,11 @@ public class EE {
     public EE() {
     }
 
+    public EE(String nombre, String profesor) {
+        this.nombre = nombre;
+        this.profesor = profesor;
+    }
+    
     public EE(Integer idEE, String nombre, String profesor) {
         this.idEE = idEE;
         this.nombre = nombre;
