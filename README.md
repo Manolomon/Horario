@@ -7,6 +7,20 @@ Proyecto Horario, orientado a un estudiante con un modelo educativo similar al q
 * [X] Gestionar las clases individuales de cada Experiencia Educativa
 * [X] Almacenar la información en una base de datos SQL
 
+## Uso
+
+1. Instalar MySQL con un usuario root registrado con la contraseña: **1234**
+2. Ejecutar el script ubicado en /database/Horario.sql
+    ```
+    SOURCE C:\Ruta_absoluta\database\Horario.sql;
+    ```
+3. Ejecutar ```Timetable.jar``` ubicado en la /dist/Timetable.jar
+4. Disfrutar c:
+
+## Implementación
+
+El proyecto está almacenado como proyecto de Netbeans, así que se puede inicializar desde ```File > Open Project > carpeta_del proyecto```
+
 ## Objetivo
 
 Que el estudiante aplique los conocimientos adquiridos en temas previos para la escritura de código guiado por estándares y buenas prácticas.
@@ -89,3 +103,21 @@ Archivo reservado para la carga en MySQL en /database/Horario.sql
 | horaFin    | time        | NO   |     | NULL    |                |
 | salon      | varchar(50) | NO   |     | NULL    |                |
 | nota       | text        | YES  |     | NULL    |                |
+
+## Third-Party Software
+
+### MySQL Connector/J
+
+    https://github.com/mysql/mysql-connector-j#mysql-connectorj
+
+### JFoenix
+
+    https://github.com/jfoenixadmin/JFoenix
+
+### MyBatis SQL Mapper Framework for Java
+
+    https://github.com/mybatis/mybatis-3
+
+### JFXtras
+
+    https://github.com/JFXtras/jfxtras
