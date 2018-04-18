@@ -17,7 +17,6 @@ import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -42,36 +41,54 @@ import model.pojos.Clase;
 import model.pojos.EE;
 
 /**
- *
+ * Clase controlador de la escena "FXMLHorario.fxml"
  * @author Manolo
+ * @since 07/04/2018
+ * @version 1.0
  */
 public class FXMLDocumentController implements Initializable {
 
-    @FXML
-    private StackPane rootPane;
+  // ==================================================================================================================
+  // Elementos de la Interfaz FXML
 
-    @FXML
-    private AnchorPane AgendaPane;
+  @FXML
+  private StackPane rootPane;
 
-    @FXML
-    private Agenda agenda;
+  @FXML
+  private AnchorPane AgendaPane;
 
-    @FXML
-    private JFXButton btn_agregar;
+  @FXML
+  private Agenda agenda;
 
-    @FXML
-    private JFXButton hamburger;
+  @FXML
+  private JFXButton btn_agregar;
 
-    @FXML
-    private JFXDrawer drawer;
+  @FXML
+  private JFXButton hamburger;
 
-    // ==================================================================================================================
-    // Lista de datos de la Base de Datos
-    private List<EE> experiencias;
-    private List<Clase> clases;
-    private final Map<String, Agenda.AppointmentGroup> mapaDeGrupos = new TreeMap<String, Agenda.AppointmentGroup>();
+  @FXML
+  private JFXDrawer drawer;
 
-    @Override
+  // ==================================================================================================================
+  // Recursos de la Base de Datos
+
+  private List<EE> experiencias;
+  private List<Clase> clases;
+
+  // ==================================================================================================================
+  // Recurso Interfaz de Agenda
+
+  private final Map<String, Agenda.AppointmentGroup> mapaDeGrupos = new TreeMap<String, Agenda.AppointmentGroup>();
+
+  // ==================================================================================================================
+  // Carga de GUI
+
+  /**
+   * Inicialización de la escena, carga de datos y animación
+   * @param url URL de inicialización
+   * @param rb ResourceBundle de inicialización
+   */
+  @Override
     public void initialize(URL url, ResourceBundle rb) {
         rootPane.setOpacity(0);
         fadeInTransition();
@@ -82,41 +99,10 @@ public class FXMLDocumentController implements Initializable {
         cargarClases();
     }
 
-    @FXML
-    public void clickHamburger(ActionEvent event) {
-        try {
-            VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDrawer.fxml"));
-            for (Node node : box.getChildren()) {
-                node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                    if (node.getAccessibleText() != null) {
-                        switch (node.getAccessibleText()) {
-                        case "Horario":
-                            drawer.close();
-                            drawer.setMouseTransparent(true);
-                            break;
-                        case "Experiencias":
-                            cargarExperiencias();
-                            break;
-                        }
-                    }
-                });
-            }
-            drawer.setSidePane(box);
-            drawer.setEffect(new DropShadow());
-            drawer.open();
-            drawer.setMouseTransparent(false);
-        } catch (IOException e) {
-
-        }
-    }
-
-    @FXML
-    void cerrarDrawer(MouseEvent event) {
-        drawer.close();
-        drawer.setMouseTransparent(true);
-    }
-
-    public void prepararAgenda() {
+  /**
+   * Configuración inicial de la Agenda
+   */
+  public void prepararAgenda() {
         for (Agenda.AppointmentGroup grupo : agenda.appointmentGroups()) {
             mapaDeGrupos.put(grupo.getDescription(), grupo);
         }
@@ -129,7 +115,14 @@ public class FXMLDocumentController implements Initializable {
         agenda.setAllowResize(false);
     }
 
-    public void cargarClases() {
+  // ==================================================================================================================
+  // Gestión de Datos
+
+  /**
+   * Se obtienen las Clases y EE almacenadas en la Base de Datos
+   * y se asignan a un AppointmentGroup para cuestiones de la Interfaz
+   */
+  public void cargarClases() {
         agenda.appointments().clear();
         experiencias = EEDAO.getAllEEs();
         clases = ClaseDAO.getAllClases();
@@ -147,161 +140,238 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
-    public void agregarClase(ActionEvent event) {
-        fadeOutTransition();
-        loadAgregarScene();
+  /**
+   * Se busca la clase a la que hace referencia un Appointment
+   * @param appointment Appointement con datos relacionados a una clase
+   * @return Clase encontrada
+   */
+  public Clase buscarClase(Appointment appointment) {
+    for (Clase clase : clases) {
+      if (clase.getDescription() == appointment.getDescription() && clase.getStartLocalDateTime() == appointment.getStartLocalDateTime()
+          && clase.getLocation() == appointment.getLocation() && clase.getSummary() == appointment.getSummary()
+          && clase.getEndLocalDateTime() == appointment.getEndLocalDateTime()) {
+        return clase;
+      }
     }
+    return null;
+  }
 
-    public void mostrarDatosClase(Appointment appo) {
-        Clase clase = buscarClase(appo);
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(appo.getSummary()));
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/FXMLDatosClase.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        DatosClaseController display = loader.getController();
-        display.montarDatos(clase);
-        VBox p = loader.getRoot();
-        content.setBody(p);
-        JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton aceptar = new JFXButton("ACEPTAR");
-        display.getButtonEliminar().setOnAction((ActionEvent e) -> {
-            eliminarClase();
-            dialog.close();
-        });
-
-        display.getButtonEditar().setOnAction((ActionEvent e) -> {
-            modificarClase(clase);
-        });
-        aceptar.setOnAction((ActionEvent e) -> {
-            dialog.close();
-        });
-        content.setActions(aceptar);
-        dialog.show();
+  /**
+   * Se elimina una clase seleccionada
+   */
+  public void eliminarClase() {
+    Clase porEliminar = buscarClase(agenda.selectedAppointments().get(0));
+    int idClase = porEliminar.getIdClase();
+    if (ClaseDAO.eliminar(idClase)) {
+      showDialog("Eliminado", "Contacto eliminado con éxito");
+      cargarClases();
+    } else {
+      showDialog("Error", "No se pudo eliminar el contacto");
     }
+  }
 
-    public void fadeInTransition() {
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(300));
-        transition.setNode(rootPane);
-        transition.setFromValue(0);
-        transition.setToValue(1);
-        transition.play();
+  /**
+   * Se hace un envío a la escena de AgregarDatos con una 
+   * Clase seleccionada
+   * @param clase Clase que seleccionada para modificar
+   */
+  public void modificarClase(Clase clase) {
+    fadeOutTransition();
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getResource("/view/AgregarDatos.fxml"));
+    try {
+      loader.load();
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
     }
+    AgregarDatosController display = loader.getController();
+    display.modificarClase(clase);
+    StackPane agregarView = loader.getRoot();
+    Scene newScene = new Scene(agregarView);
+    Stage curStage = (Stage) rootPane.getScene().getWindow();
+    curStage.setScene(newScene);
+    curStage.show();
+  }
 
-    public void fadeOutTransition() {
-        FadeTransition transition = new FadeTransition();
-        transition.setDuration(Duration.millis(300));
-        transition.setNode(rootPane);
-        transition.setFromValue(1);
-        transition.setToValue(0);
-        transition.play();
+  // ==================================================================================================================
+  // Llamadas a GUI externas
+
+  /**
+   * Se genera un JFXDialog con la interfaz y los datos de una Clase 
+   * vinculada a un Appointment seleccionado en la Agenda
+   * @param appointment Appointment seleccionado como respuesta a un click en la Agenda
+   */
+  public void mostrarDatosClase(Appointment appointment) {
+    Clase clase = buscarClase(appointment);
+    JFXDialogLayout content = new JFXDialogLayout();
+    content.setHeading(new Text(appointment.getSummary()));
+    FXMLLoader loader = new FXMLLoader();
+    loader.setLocation(getClass().getResource("/view/FXMLDatosClase.fxml"));
+    try {
+      loader.load();
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
     }
+    DatosClaseController display = loader.getController();
+    display.montarDatos(clase);
+    VBox p = loader.getRoot();
+    content.setBody(p);
+    JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+    JFXButton aceptar = new JFXButton("ACEPTAR");
 
-    public void loadAgregarScene() {
-        try {
-            StackPane agregarView;
-            agregarView = FXMLLoader.load(getClass().getResource("/view/AgregarDatos.fxml"));
-            Scene newScene = new Scene(agregarView);
-            newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
-            Stage curStage = (Stage) rootPane.getScene().getWindow();
-            curStage.setScene(newScene);
-            curStage.show();
-        } catch (IOException e) {
-            System.out.println("No se enecontró: " + e);
-        }
+    display.getButtonEliminar().setOnAction((ActionEvent e) -> {
+      eliminarClase();
+      dialog.close();
+    });
+
+    display.getButtonEditar().setOnAction((ActionEvent e) -> {
+      modificarClase(clase);
+    });
+
+    aceptar.setOnAction((ActionEvent e) -> {
+      dialog.close();
+    });
+
+    content.setActions(aceptar);
+    dialog.show();
+  }
+
+  /**
+   * Se hace la carga de la escena de Agregar Datos
+   */
+  public void loadAgregarScene() {
+    try {
+      StackPane agregarView;
+      agregarView = FXMLLoader.load(getClass().getResource("/view/AgregarDatos.fxml"));
+      Scene newScene = new Scene(agregarView);
+      newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
+      Stage curStage = (Stage) rootPane.getScene().getWindow();
+      curStage.setScene(newScene);
+      curStage.show();
+    } catch (IOException e) {
+      System.out.println("No se enecontró: " + e);
     }
+  }
 
-    public void cargarExperiencias() {
-        try {
-            StackPane agregarView;
-            agregarView = FXMLLoader.load(getClass().getResource("/view/FXMLExperiencias.fxml"));
-            Scene newScene = new Scene(agregarView);
-            newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
-            Stage curStage = (Stage) rootPane.getScene().getWindow();
-            curStage.setScene(newScene);
-            curStage.show();
-        } catch (IOException e) {
-            System.out.println("No se enecontró: " + e);
-        }
+  /**
+   * Se hace la carga de la escena de Experiencias Educativas
+   */
+  public void cargarExperiencias() {
+    try {
+      StackPane agregarView;
+      agregarView = FXMLLoader.load(getClass().getResource("/view/FXMLExperiencias.fxml"));
+      Scene newScene = new Scene(agregarView);
+      newScene.getStylesheets().add(getClass().getResource("/view/AgendaStyle.css").toExternalForm());
+      Stage curStage = (Stage) rootPane.getScene().getWindow();
+      curStage.setScene(newScene);
+      curStage.show();
+    } catch (IOException e) {
+      System.out.println("No se enecontró: " + e);
     }
+  }
 
-    public Clase buscarClase(Appointment clase) {
-        for (Clase c : clases) {
-            if (c.getDescription() == clase.getDescription()
-                    && c.getStartLocalDateTime() == clase.getStartLocalDateTime()
-                    && c.getLocation() == clase.getLocation() && c.getSummary() == clase.getSummary()
-                    && c.getEndLocalDateTime() == clase.getEndLocalDateTime()) {
-                return c;
+  /**
+   * Construcción de un JFXDialog que emite mensajes de texto simples
+   * @param head Título del dialog
+   * @param body Texto principal del dialog
+   */
+  public void showDialog(String head, String body) {
+    JFXDialogLayout content = new JFXDialogLayout();
+    content.setHeading(new Text(head));
+    content.setBody(new Text(body));
+    JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
+    JFXButton aceptar = new JFXButton("ACEPTAR");
+    aceptar.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent e) {
+        dialog.close();
+      }
+    });
+    content.setActions(aceptar);
+    dialog.show();
+  }
+
+  // ==================================================================================================================
+  // Eventos FXML
+
+  /**
+   * Evento de click en el botón de despliege del Drawer y asignación de 
+   * sus botones
+   * @param event Evento de click en el botón Hamburguesa
+   */
+  @FXML
+  public void clickHamburger(ActionEvent event) {
+    try {
+      VBox box = FXMLLoader.load(getClass().getResource("/view/FXMLDrawer.fxml"));
+      for (Node node : box.getChildren()) {
+        node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+          if (node.getAccessibleText() != null) {
+            switch (node.getAccessibleText()) {
+            case "Horario":
+              drawer.close();
+              drawer.setMouseTransparent(true);
+              break;
+            case "Experiencias":
+              cargarExperiencias();
+              break;
             }
-        }
-        return null;
-    }
-
-    /**
-     * Inicialización y muestra de un JFXDialog al centro de la pantalla, 
-     * mandando una advertencia a alguna operación
-     * @param head Título del dialog
-     * @param body Texto principal del dialog
-     */
-    public void showDialog(String head, String body) {
-        JFXDialogLayout content = new JFXDialogLayout();
-        content.setHeading(new Text(head));
-        content.setBody(new Text(body));
-        JFXDialog dialog = new JFXDialog(rootPane, content, JFXDialog.DialogTransition.CENTER);
-        JFXButton aceptar = new JFXButton("ACEPTAR");
-        aceptar.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                dialog.close();
-            }
+          }
         });
-        content.setActions(aceptar);
-        dialog.show();
+      }
+      drawer.setSidePane(box);
+      drawer.setEffect(new DropShadow());
+      drawer.open();
+      drawer.setMouseTransparent(false);
+    } catch (IOException e) {
+
+    }
+  }
+
+  /**
+   * Evento de salida del mouse del campo del Drawer para cerrarlo
+   * @param event Evento de salida del Mouse
+   */
+  @FXML
+    void cerrarDrawer(MouseEvent event) {
+        drawer.close();
+        drawer.setMouseTransparent(true);
     }
 
-    public void eliminarClase() {
-        Clase porEliminar = buscarClase(agenda.selectedAppointments().get(0));
-        int idClase = porEliminar.getIdClase();
-        if (ClaseDAO.eliminar(idClase)) {
-            showDialog("Eliminado", "Contacto eliminado con éxito");
-            cargarClases();
-        } else {
-            showDialog("Error", "No se pudo eliminar el contacto");
-        }
-    }
+  /**
+   * Evento de click en el botón de Agregar Clase que carga la escena
+   * @param event Evento de click en el botón Agregar
+   */
+  @FXML
+  public void agregarClase(ActionEvent event) {
+    fadeOutTransition();
+    loadAgregarScene();
+  }
 
-    public void modificarClase(Clase clase) {
-        fadeOutTransition();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/AgregarDatos.fxml"));
-        try {
-            loader.load();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        AgregarDatosController display = loader.getController();
-        display.modificarClase(clase);
-        StackPane agregarView = loader.getRoot();
-        Scene newScene = new Scene(agregarView);
-        Stage curStage = (Stage) rootPane.getScene().getWindow();
-        curStage.setScene(newScene);
-        curStage.show();
-    }
+  // ==================================================================================================================
+  // Animaciones
+  
+  /**
+   * Animación de entrada para la escena
+   */
+  public void fadeInTransition() {
+    FadeTransition transition = new FadeTransition();
+    transition.setDuration(Duration.millis(300));
+    transition.setNode(rootPane);
+    transition.setFromValue(0);
+    transition.setToValue(1);
+    transition.play();
+  }
+
+  /**
+   * Animación de salida para la escena
+   */
+  public void fadeOutTransition() {
+    FadeTransition transition = new FadeTransition();
+    transition.setDuration(Duration.millis(300));
+    transition.setNode(rootPane);
+    transition.setFromValue(1);
+    transition.setToValue(0);
+    transition.play();
+  }
+
 }
-
-/*
-Para fecha:
-
-private LocalDate calcNextFriday(LocalDate d) {
-    if (d.getDayOfWeek() >= DateTimeConstants.FRIDAY) {
-        d = d.plusWeeks(1);
-    }
-    return d.withDayOfWeek(DateTimeConstants.FRIDAY);
-}
-*/

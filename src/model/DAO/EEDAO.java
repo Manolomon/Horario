@@ -14,7 +14,7 @@ import org.apache.ibatis.session.SqlSession;
 /**
  * Objeto de Acceso de Datos de EEs para MySQL
  * @author Manolo
- * @since 04/09/2018
+ * @since 09/04/2018
  * @version 1.0
  */
 public class EEDAO {
@@ -40,6 +40,7 @@ public class EEDAO {
 
     /**
      * Buscador de EE con un id en específico
+     * @param idEE Identificador de la EE deseada
      * @return Lista de los EEs encontrados
      */
     public static List<EE> obtenerEE(int idEE) {
@@ -60,7 +61,7 @@ public class EEDAO {
 
     /**
      * Se almacena un nuevo EE en la Base de Datos
-     * @param EE Objeto EE para registrarlo
+     * @param ee Objeto EE para registrarlo
      * @return Confirmación si se pudo registrar el EE con éxito
      */
     public static boolean registrar(EE ee) {
@@ -82,7 +83,7 @@ public class EEDAO {
 
     /**
      * Se actualiza un EE ya registrado en la Base de Datos
-     * @param EE Objeto EE con un idEE definido
+     * @param ee Objeto EE con un idEE definido
      * @return Confirmación si se pudo actualizar el EE con éxito
      */
     public static boolean actualizar(EE ee) {

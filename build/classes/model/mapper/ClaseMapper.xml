@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Clase">
+
     <!-- Obtener TODAS las Clases en la Base de Datos -->
     <select id="getAllClases" resultType="model.pojos.Clase">
         SELECT Clase.idClase, 
@@ -23,11 +24,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idEE = #{idEE}
     </select>
     
+    <!-- Crear registro de Clase en la Base de Datos -->
     <insert id="registrar" parameterType="model.pojos.Clase">
         INSERT INTO Clase (idEE, dia, horaInicio, horaFin, salon, nota)
         VALUES(#{idEE},#{dia},#{horaInicio},#{horaFin},#{salon},#{nota})
     </insert>
     
+    <!-- Actualizar una Clase específica, a través de otra generada -->
     <update id="actualizar" parameterType="model.pojos.Clase">
         UPDATE Clase SET
         idEE = #{idEE},
@@ -39,10 +42,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE idClase = #{idClase}
     </update>
 
+    <!-- Eliminar una Clase específica -->
     <delete id="eliminar" parameterType="int">
         DELETE FROM Clase WHERE idClase = #{idClase}
     </delete>
 
+    <!-- Eliminar Clases asociadas con una EE específica -->
     <delete id="eliminarClases" parameterType="int">
         DELETE FROM Clase WHERE idEE = #{idEE}
     </delete>

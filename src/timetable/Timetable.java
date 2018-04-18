@@ -13,11 +13,17 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
- *
+ * Clase principal encargada de la carga de la primera escena del Horario
  * @author Manolo
+ * @since 07/04/2018
+ * @version 1.0
  */
 public class Timetable extends Application {
     
+    /**
+     * Carga del primer Stage de la aplicación
+     * @param stage Stage para el inicio de la aplicación
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/FXMLHorario.fxml"));

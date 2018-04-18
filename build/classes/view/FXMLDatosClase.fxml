@@ -97,7 +97,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Label text="Lugar" textFill="#757575" />
-                  <Label fx:id="label_Lugar" accessibleText="label_lugar" text="Lugar">
+                  <Label fx:id="label_Lugar" accessibleText="label_lugar" text="Lugar" textFill="#3f51b5">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -125,7 +125,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                <children>
                   <Label text="Profesor" textFill="#757575" />
-                  <Label fx:id="label_Profesor" accessibleText="label_lugar" text="Profesor">
+                  <Label fx:id="label_Profesor" accessibleText="label_lugar" text="Profesor" textFill="#3f51b5">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -153,7 +153,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
                   <Label text="Nota" textFill="#757575" />
-                  <Label fx:id="label_Nota" accessibleText="label_lugar" text="Nota">
+                  <Label fx:id="label_Nota" accessibleText="label_lugar" text="Nota" textFill="#3f51b5" wrapText="true">
                      <font>
                         <Font size="17.0" />
                      </font>

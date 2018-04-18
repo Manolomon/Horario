@@ -27,76 +27,17 @@ public class Clase extends AppointmentImplLocal {
     private Time horaFin;
     private String salon;
     private String nota;
-
-    public String getDia() {
-        return dia;
-    }
-
-    public void setDia(String dia) {
-        this.dia = dia;
-    }
-
-    public Time getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(Time horaInicio) {
-        this.horaInicio = horaInicio;
-    }
-
-    public Time getHoraFin() {
-        return horaFin;
-    }
-
-    public void setHoraFin(Time horaFin) {
-        this.horaFin = horaFin;
-    }
-
-    public String getSalon() {
-        return salon;
-    }
-
-    public void setSalon(String salon) {
-        this.salon = salon;
-    }
-
-    public String getNota() {
-        return nota;
-    }
-
-    public void setNota(String nota) {
-        this.nota = nota;
-    }
     
-    public Integer getIdClase() {
-        return idClase;
-    }
-
-    public void setIdClase(Integer idClase) {
-        this.idClase = idClase;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-    
-    public Integer getIdEE() {
-        return idEE;
-    }
-
-    public void setIdEE(Integer idEE) {
-        this.idEE = idEE;
-    }
-
-//    public Clase() {
-//        super();
-//    }
-
-    public Clase(Integer idEE, String dia, Time horaInicio, Time horaFin, String salon, String nota){
+    /**
+     * Constructor para las nuevas Clases generadas
+     * @param idEE Identificador de la EE asociada a la Clase
+     * @param dia dia de la Clase
+     * @param horaInicio Hora de Inicio de la Clase
+     * @param horaFin Hora de Fin de la Clase
+     * @param salon Salón de la Clase
+     * @param nota Nota de la Clase
+     */
+    public Clase(Integer idEE, String dia, Time horaInicio, Time horaFin, String salon, String nota) {
         this.idEE = idEE;
         this.dia = dia;
         this.horaInicio = horaInicio;
@@ -105,8 +46,17 @@ public class Clase extends AppointmentImplLocal {
         this.nota = nota;
     }
     
-    //Actualizar
-    public Clase(Integer idClase, Integer idEE, String dia, Time horaInicio, Time horaFin, String salon, String nota){
+    /**
+     * Constructor para una Clase generada para Actualizar la Base de Datos
+     * @param idClase Identificador de la Clase
+     * @param idEE Identificador de la EE asociada a la Clase
+     * @param dia dia de la Clase
+     * @param horaInicio Hora de Inicio de la Clase
+     * @param horaFin Hora de Fin de la Clase
+     * @param salon Salón de la Clase
+     * @param nota Nota de la Clase
+     */
+    public Clase(Integer idClase, Integer idEE, String dia, Time horaInicio, Time horaFin, String salon, String nota) {
         this.idClase = idClase;
         this.idEE = idEE;
         this.dia = dia;
@@ -117,16 +67,19 @@ public class Clase extends AppointmentImplLocal {
     }
 
     /**
-     * Constructor para los datos obtenidos de la Base de Datos
-     * @param idClase
-     * @param idEE
-     * @param nombre
-     * @param dia
-     * @param horaInicio
-     * @param horaFin
-     * @param salon
-     * @param nota     */
-    public Clase(Integer idClase, Integer idEE, String nombre, String dia, Time horaInicio, Time horaFin, String salon, String nota) {
+     * Constructor para las Clases obtenidas de la Base de Datos, que 
+     * es directamente asociado como AppointmentImplLocal por su herencia
+     * @param idClase Identificador de la Clase
+     * @param idEE Identificador de la EE asociada a la Clase
+     * @param nombre Nombre de la Clase
+     * @param dia dia de la Clase
+     * @param horaInicio Hora de Inicio de la Clase
+     * @param horaFin Hora de Fin de la Clase
+     * @param salon Salón de la Clase
+     * @param nota Nota de la Clase
+     */
+    public Clase(Integer idClase, Integer idEE, String nombre, String dia, Time horaInicio, Time horaFin, String salon,
+            String nota) {
         super();
         int cant = 0;
         switch (dia) {
@@ -160,9 +113,133 @@ public class Clase extends AppointmentImplLocal {
         this.setSummary(nombre);
         this.setDescription(nota);
     }
+
+    /**
+     * Getter del idClase
+     * @return Identificador de la Clase 
+     */
+    public Integer getIdClase() {
+        return idClase;
+    }
+
+    /**
+     * Setter del idClase
+     * @param idClase Identifiacdor de la Clase 
+     */
+    public void setIdClase(Integer idClase) {
+        this.idClase = idClase;
+    }
+
+    /**
+     * Getter del idClase
+     * @return Nombre de la Clase 
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Setter del idClase
+     * @param nombre Nombre de la Clase 
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * Getter del idEE
+     * @return Identificador de la EE asociada a la Clase 
+     */
+    public Integer getIdEE() {
+        return idEE;
+    }
+
+    /**
+     * Setter del idEE
+     * @param idEE Identificador de la EE asociada a la Clase 
+     */
+    public void setIdEE(Integer idEE) {
+        this.idEE = idEE;
+    }
+
+    /**
+     * Getter del dia
+     * @return Dia de la Clase 
+     */
+    public String getDia() {
+        return dia;
+    }
+
+    /**
+     * Setter del dia
+     * @param dia Dia de la Clase 
+     */
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
+
+    /**
+     * Getter de la horaInicio
+     * @return Hora de Inicio de la Clase 
+     */
+    public Time getHoraInicio() {
+        return horaInicio;
+    }
+
+    /**
+     * Setter de la horaInicio
+     * @param horaInicio Hora de Inicio de la Clase 
+     */
+    public void setHoraInicio(Time horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    /**
+     * Getter de la horaFin
+     * @return Hora de Fin de la Clase 
+     */
+    public Time getHoraFin() {
+        return horaFin;
+    }
+
+    /**
+     * Setter de la horaFin
+     * @param horaFin Hora de Fin de la Clase 
+     */
+    public void setHoraFin(Time horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    /**
+     * Getter del salón
+     * @return Salón de la Clase 
+     */
+    public String getSalon() {
+        return salon;
+    }
+
+    /**
+     * Setter del salón
+     * @param salon Salón de la Clase 
+     */
+    public void setSalon(String salon) {
+        this.salon = salon;
+    }
+
+    /**
+     * Getter de la nota
+     * @return Nota de la Clase 
+     */
+    public String getNota() {
+        return nota;
+    }
+
+    /**
+     * Setter de la nota
+     * @param nota Nota de la Clase 
+     */
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+    
 }
-//withStartLocalDateTime(LocalDateTime.of(LocalDate.of(2018, Month.APRIL, 9), LocalTime.of(10, 00)))
-//                .withEndLocalDateTime(LocalDateTime.of(LocalDate.of(2018, Month.APRIL, 9), LocalTime.of(12, 00)))
-//                .withSummary("Principios de Construcción de Software")
-//                .withDescription("Santa Claus")
-//                .withAppointmentGroup(lAppointmentGroupMap.get("group04"));;

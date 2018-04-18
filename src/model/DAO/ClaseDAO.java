@@ -12,9 +12,9 @@ import model.pojos.Clase;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * Objeto de Acceso de Datos de Clases para MySQL
+ * Objeto de Acceso de Datos de Clase para MySQL
  * @author Manolo
- * @since 04/09/2018
+ * @since 09/04/2018
  * @version 1.0
  */
 public class ClaseDAO {
@@ -61,7 +61,7 @@ public class ClaseDAO {
 
     /**
      * Se almacena un nuevo Clase en la Base de Datos
-     * @param Clase Objeto Clase para registrarlo
+     * @param clase Objeto Clase para registrarlo
      * @return Confirmación si se pudo registrar el Clase con éxito
      */
     public static boolean registrar(Clase clase) {
@@ -83,7 +83,7 @@ public class ClaseDAO {
 
     /**
      * Se actualiza un Clase ya registrado en la Base de Datos
-     * @param Clase Objeto Clase con un idClase definido
+     * @param clase Objeto Clase con un idClase definido
      * @return Confirmación si se pudo actualizar el Clase con éxito
      */
     public static boolean actualizar(Clase clase) {
@@ -106,7 +106,7 @@ public class ClaseDAO {
     /**
      * Se elimina un Clase de la Base de Datos a partir de su idClase
      * @param idClase Identificador de un Clase ya registrado en la Base de Datos
-     * @return Confirmación si se pudo eliminar el Clase con éxito
+     * @return Confirmación si se pudo eliminar la Clase con éxito
      */
     public static boolean eliminar(int idClase) {
         SqlSession conn = null;
@@ -128,7 +128,7 @@ public class ClaseDAO {
     /**
      * Se eliminan las Clases asociadas a una EE específica
      * @param idEE Identificador de un Clase ya registrado en la Base de Datos
-     * @return Confirmación si se pudo eliminar el Clase con éxito
+     * @return Confirmación si se pudieron eliminar las Clases con éxito
      */
     public static boolean eliminarClases(int idEE) {
         SqlSession conn = null;
