@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="265.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="135.0" prefWidth="251.0" style="-fx-background-color: #3F51B5;">
+         <children>
+            <ImageView fitHeight="89.0" fitWidth="89.0" layoutX="14.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" smooth="false">
+               <image>
+                  <Image url="@../resources/icons.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="114.0" layoutY="36.0" text="Timetable" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="112.0" layoutY="79.0" text="Gestor de Horarios" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <JFXButton accessibleText="Horario" alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="319.0" ripplerFill="#ff4081" text="     Horario">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="36.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/ic_timetable_grey600_24dp.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+      <JFXButton accessibleText="Experiencias" alignment="BASELINE_LEFT" prefHeight="55.0" prefWidth="292.0" ripplerFill="#ff4081" text="     Experiencias Educativas">
+         <graphic>
+            <ImageView fitHeight="36.0" fitWidth="36.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/ic_school_grey600_24dp.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </JFXButton>
+   </children>
+</VBox>
