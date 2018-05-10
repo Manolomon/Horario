@@ -14,16 +14,12 @@ Proyecto Horario, orientado a un estudiante con un modelo educativo similar al q
     ```
     SOURCE C:\Ruta_absoluta\database\Horario.sql;
     ```
-3. Ejecutar ```Timetable.jar``` ubicado en la /dist/Timetable.jar
+3. Ejecutar ```Timetable.jar```, ubicado como release
 4. Disfrutar c:
 
 ## Implementación
 
 El proyecto está almacenado como proyecto de Netbeans, así que se puede inicializar desde ```File > Open Project > carpeta_del proyecto```
-
-## Documentación
-
-La documentación generado en formato JavaDoc de cada clase que se implementó, se encuentra disponible en ```/dist/Timetable.html```
 
 ## Objetivo
 
