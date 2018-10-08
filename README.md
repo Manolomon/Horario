@@ -1,4 +1,4 @@
-[![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg?style=for-the-badge)](https://github.com/Manolomon/Horario)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Manolomon/Horario.svg?style=for-the-badge)](https://github.com/Manolomon/Horario)
 # Horario
 
 Proyecto Horario, orientado a un estudiante con un modelo educativo similar al que se observa en la Facultad. Se debe poder:
